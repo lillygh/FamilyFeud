@@ -5,7 +5,6 @@
 	<title>Family Feud</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-	<script src="questions.js"></script>
 
 </head>
 
@@ -45,21 +44,21 @@
 					<div class="answer-number">6</div>
 				</div>
 			</div>
+			<!-- FF logo at top of board-->
+			<div id="logo-wrapper"><img src="FF logo2.png" id="logo"></div>
+
+			<!-- score boxesa at sides of board -->
+			<div id="family1-scorebox">
+				<div id="family1-score-container"></div>
+					<p id="family1-score"></p>
+			</div>
+			<div id="family2-scorebox">
+				<div id="family2-score-container"></div>
+					<p id="family2-score"></p>
+			</div>			
 		</div>
 	</div>
 
-	<!-- FF logo at top of board-->
-	<div id="logo-wrapper"><img src="FF logo2.png" id="logo"></div>
-
-	<!-- score boxesa at sides of board -->
-	<div id="family1-scorebox">
-		<div id="family1-score-container"></div>
-			<p id="family1-score"></p>
-	</div>
-	<div id="family2-scorebox">
-		<div id="family2-score-container"></div>
-			<p id="family2-score"></p>
-	</div>
 
 	<div id="player-wrapper">
 	<!-- Family 1 players: -->
@@ -123,7 +122,7 @@
 
 	<div id="messageArea">
 		<p class="messages" id="instruction1">Enter your names to begin</p>
-		<p class="messages" id="instruction2">Player 1 begins</p>
+		<p class="messages" id="instruction2">Family 1, Player 1 get ready!</p>
 		<div class="messages" id="question"></div>
 		<!-- <p class="questions" id="question1">Name a word that most people yell at their dogs</p>
 		<p class="questions" id="question2">Name a word that most people yell at their dogs</p>

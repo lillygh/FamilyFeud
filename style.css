@@ -83,7 +83,7 @@ body {
   position: absolute;
   text-align: center;
   width: 100%;
-  top: -85px;
+  top: -163px;
 }
 
 #logo {
@@ -93,8 +93,8 @@ body {
 
 #family1-scorebox {
   position: absolute;
-  left: 160px;
-  top: 113px;
+  left: -210px;
+  top: 35px;
   width: 150px;
   height: 97px;
   background-color: #C13237;
@@ -110,8 +110,8 @@ body {
 
 #family2-scorebox {
   position: absolute;
-  left: 810px;
-  top: 113px;
+  left: 440px;
+  top: 35px;
   width: 150px;
   height: 97px;
   background-color: #C13237;
@@ -159,6 +159,7 @@ body {
   position: absolute;
   top: 22px;
   left: 230px;
+  cursor: pointer;
 }
 
 #button-image {
@@ -185,6 +186,7 @@ body {
   width: 20px;
   left: 108px;
   top: 223px;
+  cursor: pointer;
 }
 
 #player1-name-output {
@@ -219,6 +221,7 @@ body {
   width: 20px;
   left: 293px;
   top: 223px;
+  cursor: pointer;
 }
 
 #player2-name-output {
@@ -258,6 +261,7 @@ body {
   width: 22px;
   top: 21px;
   left: 1030px;
+  cursor: pointer;
 }
 
 #player3-icon {
@@ -281,6 +285,7 @@ body {
   width: 22px;
   top: 222px;
   left: 900px;
+  cursor: pointer;
 }
 
 #player3-name-output {
@@ -320,6 +325,7 @@ body {
   width: 22px;
   top: 222px;
   left: 1092px;
+  cursor: pointer;
 }
 
 #player4-name-output {
@@ -362,7 +368,7 @@ body {
     position: absolute;
     width: 400px;
     text-align: center;
-    left: 380px;
+    left: 360px;
 }
 
 #instruction2 {
@@ -377,7 +383,7 @@ body {
     position: absolute;
     width: 400px;
     text-align: center;
-    left: 380px;
+    left: 360px;
     top: 340px;
 }
 
@@ -412,7 +418,7 @@ body {
     width: 22px;
     top: 17px;
     left: 670px;
-    display: none;
+    cursor: pointer;
 }
 
 #answerArea {
@@ -424,10 +430,11 @@ body {
     border: 1px solid white;
     background: -webkit-linear-gradient(#77C4FB,#1A41B8);
     color: white;
-    top: 110px;
+    top: 104px;
     text-align: -webkit-center;
     margin: 0 auto;
     width: 150px;
+    cursor: pointer;
     }
 
 .redstrikes {

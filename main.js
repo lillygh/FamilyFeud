@@ -18,8 +18,6 @@
 	10. Each game has 3 rounds, after round 3, player with highest score wins
 */
 
-//github, user stories, switch question
-
 var qData = [{question: 'Name a word that most people yell at their dogs',
 			  answers: ['No', 'Sit', 'Stop', 'Down', 'Fetch', 'Jump'],
 			  scores: [27,23,14,7,6,5,4]
@@ -36,31 +34,38 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 			}
 ];
 
+//Game Timer:
+	var game = {score: 0, ellapsedTime: 6, messages: ''};
+	intervalID = setInterval(function(){
+		game.ellapsedTime--;
+		$('#game-time').text(' ' + game.ellapsedTime);
+		if (game.ellapsedTime<=0) {
+	/*		alert('TIME UP BITCH!');
+	*/        clearInterval(intervalID);
+	    };
+	},1000);
+
+
+//"start game" button events
 $("#startgamebutton").click(function() {
-	var question1 = qData[0].question
+	// randomize the question displayed in the array
+	var question = qData[Math.floor(Math.random()*qData.length)].question;
 	$("#instruction1").hide();
 	$("#instruction2").show().delay(3000).fadeOut();
-	$("#question").show().text(question1);
 	$(".startGame").hide();
 	$("#answerArea").show()
+	$("#question").show(3500).text(question);
 });
 
-
-//Game Timer:
-	// var game = {score: 0, ellapsedTime: 4, messages: ''};
-	// intervalID = setInterval(function(){
-	// 	game.ellapsedTime--;
-	// 	$('#game-time').text(' ' + game.ellapsedTime);
-	// 	if (game.ellapsedTime<=0) {
-	// /*		alert('TIME UP BITCH!');
-	// */        clearInterval(intervalID);
-	//     };
-	// },1000);
+// create an event listener for button-image (the answer input field) when it's clicked
+$(".answerInputButton").click(function(){
+// console log the answer from the input field
+	var answerData = $("#answerInput").val()
+	console.log(answerData)
+})
 
 
 //Family 1 Last Name switch from input field to name
-
-
 	$("#family1-button").click(function() {
 	  var playerLastName = $("#family1-name").val();
 	  $("#family1-name").hide();
@@ -72,9 +77,6 @@ $("#startgamebutton").click(function() {
 
 
 //Family 2 Last Name switch from input field to name
-
-
-
 	$("#family2-button").click(function() {
 	  var playerLastName = $("#family2-name").val();
 	  $("#family2-name").hide();
@@ -86,8 +88,6 @@ $("#startgamebutton").click(function() {
 
 
 //Player 1 Last Name switch from input field to name
-
-
 	$("#player1-button").click(function() {
 	  var playerName = $("#player1-input").val();
 	  $("#player1-input").hide();
@@ -98,8 +98,6 @@ $("#startgamebutton").click(function() {
 
 
 //Player 2 Last Name switch from input field to name
-
-
 	$("#player2-button").click(function() {
 	  var playerName = $("#player2-input").val();
 	  $("#player2-input").hide();
@@ -110,8 +108,6 @@ $("#startgamebutton").click(function() {
 
 
 //Player 3 Last Name switch from input field to name
-
-
 	$("#player3-button").click(function() {
 	  var playerName = $("#player3-input").val();
 	  $("#player3-input").hide();
@@ -122,8 +118,6 @@ $("#startgamebutton").click(function() {
 
 
 //Player 4 Last Name switch from input field to name
-
-
 	$("#player4-button").click(function() {
 	  var playerName = $("#player4-input").val();
 	  $("#player4-input").hide();
