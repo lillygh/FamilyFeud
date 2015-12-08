@@ -37,13 +37,12 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 ];
 
 //Game Timer:
-	var game = {score: 0, ellapsedTime: 2, messages: ''};
+	var game = {score: 0, ellapsedTime: 3, messages: ''};
 	intervalID = setInterval(function(){
 		game.ellapsedTime--;
 		$('#game-time').text(' ' + game.ellapsedTime);
 		if (game.ellapsedTime<=0) {
 	        clearInterval(intervalID);
-	        $(".redstrikes").show(2000).hide(3000)
 	    };
 	},1000);
 
@@ -68,8 +67,13 @@ $(".answerInputButton").click(function(){
 	//check the index of the answer
 	if($.inArray(answerData, qData[currentQuestion].answers) !== -1) {
 		console.log("You got it right")
+		//get the index of the correct answer
+		var indexOfAnswer = qData[currentQuestion].answers.indexOf(answerData)
+		//find the score that corresponds to the index of the answer
+		console.log(qData[currentQuestion].scores[indexOfAnswer])
 	} else {
 	console.log ('Try again')
+	$(".redstrikes").show().delay(2000).fadeOut()
 	}
 })
 
