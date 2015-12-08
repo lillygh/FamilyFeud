@@ -18,30 +18,32 @@
 	10. Each game has 3 rounds, after round 3, player with highest score wins
 */
 
+var currentQuestion = null;
+
 var qData = [{question: 'Name a word that most people yell at their dogs',
-			  answers: ['No', 'Sit', 'Stop', 'Down', 'Fetch', 'Jump'],
+			  answers: ['no', 'sit', 'stop', 'down', 'fetch', 'jump'],
 			  scores: [27,23,14,7,6,5,4]
 			 },
 
 			{question: 'Name a fruit you can eat with one bite.',
-			  answers: ['Strawberry', 'Grape', 'Blueberry', 'Raspberry', 'Plum', 'Banana'],
+			  answers: ['strawberry', 'grape', 'blueberry', 'raspberry', 'plum', 'banana'],
 			  scores: [56,17,9,3,2,1]
 			},
 
 			{question: 'Name a holiday when people have parties.',
-			  answers: ['Christmas', 'Thanksgiving', 'Halloween', "4th of July", 'Labor Day', 'New Years Eve'],
+			  answers: ['christmas', 'thanksgiving', 'halloween', "4th of july", 'labor day', 'new years eve'],
 			  scores: [35,21,11, 3,2,1]
 			}
 ];
 
 //Game Timer:
-	var game = {score: 0, ellapsedTime: 6, messages: ''};
+	var game = {score: 0, ellapsedTime: 2, messages: ''};
 	intervalID = setInterval(function(){
 		game.ellapsedTime--;
 		$('#game-time').text(' ' + game.ellapsedTime);
 		if (game.ellapsedTime<=0) {
-	/*		alert('TIME UP BITCH!');
-	*/        clearInterval(intervalID);
+	        clearInterval(intervalID);
+	        $(".redstrikes").show(2000).hide(3000)
 	    };
 	},1000);
 
@@ -49,11 +51,12 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 //"start game" button events
 $("#startgamebutton").click(function() {
 	// randomize the question displayed in the array
-	var question = qData[Math.floor(Math.random()*qData.length)].question;
+	currentQuestion = Math.floor(Math.random()*qData.length);
+	var question = qData[currentQuestion].question;
 	$("#instruction1").hide();
 	$("#instruction2").show().delay(3000).fadeOut();
 	$(".startGame").hide();
-	$("#answerArea").show()
+	$("#answerArea").show(3500)
 	$("#question").show(3500).text(question);
 });
 
@@ -62,6 +65,12 @@ $(".answerInputButton").click(function(){
 // console log the answer from the input field
 	var answerData = $("#answerInput").val()
 	console.log(answerData)
+	//check the index of the answer
+	if($.inArray(answerData, qData[currentQuestion].answers) !== -1) {
+		console.log("You got it right")
+	} else {
+	console.log ('Try again')
+	}
 })
 
 

@@ -439,8 +439,9 @@ body {
 
 .redstrikes {
   position: absolute;
-  left: 535px;
-  top: 100px;
+  left: 510px;
+  top: 110px;
   width: 100px;
   display: none;
+  z-index: 5;
 }
