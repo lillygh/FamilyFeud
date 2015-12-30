@@ -1,28 +1,28 @@
 body {
   background-color: #304EC3;
-  height: 100vh;
 }
 
 .container {
   position: relative;
-  margin-top: 60px;
 }
 
 #steveharvey {
   position: absolute;
-  width: 150px;
-  top: -40px;
-  left: 22px;
+  width: 180px;
+  top: 40px;
+  left: 40px;
 }
 
 #game-time {
   position: absolute;
-  left: 940px;
-  top: -30px;
+  left: 600px;
+  top: 200px;
   font-size: 100px;
   color: white;
 }
 
+/*-------------------------------*/
+/*answer board, scoreboxes, and FF logo*/
 #boardBackground {
   background-color: #62B2A4;
   background-image: radial-gradient(white 23%, transparent 24%);
@@ -35,7 +35,14 @@ body {
   width: 500px;
   height: 300px;
   position: relative;
-  z-index: -1;
+  top: 100px;
+}
+
+#logo-wrapper {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  top: -98px;
 }
 
 .blackAnswerBackground {
@@ -79,13 +86,6 @@ body {
     display: none;
 }
 
-#logo-wrapper {
-  position: absolute;
-  text-align: center;
-  width: 100%;
-  top: -163px;
-}
-
 #logo {
   width: 300px;
   margin: 0 auto;
@@ -125,13 +125,19 @@ body {
   background-color: black;
 }
 
-#player-wrapper {
-  position: absolute;
-  margin-left: 20px;
-  margin-right: 20px;
-  z-index: 1;
-  top: 225px;
-  height: 350px;
+/*-------------------------------*/
+/*player images and names*/
+
+.player-wrapper {
+}
+
+/*family 1*/
+.family1-wrapper{
+  position: relative;
+  width: 500px;
+  margin: 0 auto;
+  left: -300px;
+  top: 50px;
 }
 
 #family1-name {
@@ -233,6 +239,15 @@ body {
   display: none;
   color: white;
   top: 220px;
+}
+
+/*family 2*/
+.family2-wrapper{
+  position: relative;
+  width: 500px;
+  margin: 0 auto;
+  left: -300px;
+  top: 50px;
 }
 
 #family2-name {
@@ -350,6 +365,7 @@ body {
     margin: 5px;
 }
 
+/*-------------------------------*/
 /*text of answer tile*/
 .answer-text {
     color: white;
@@ -357,11 +373,21 @@ body {
     font-size: xx-large;
 }
 
+/*-------------------------------*/
+/*area with questions, instructions, and answer input*/
 #messageArea {
+  position: relative;
+  margin: 0 auto;
   font-size: 30px;
   color: white;
   text-align: center;
-  margin-bottom: 20px;
+  top: 60px;
+}
+
+.messages {
+    position: absolute;
+    width: 400px;
+    text-align: center;
 }
 
 #instruction1 {
@@ -379,16 +405,11 @@ body {
     display: none;
 }
 
-.messages {
+#question {
     position: absolute;
     width: 400px;
     text-align: center;
     left: 360px;
-    top: 340px;
-}
-
-#question {
-  display: none;
 }
 
 #answerArea {
@@ -396,15 +417,10 @@ body {
   width: 100%;
   height: 30px;
   font-size: 30px;
-  top: 430px;
+  top: 160px;
 }
 
 #answerInput {
-    /*position: absolute;
-    width: 150px;
-    height: 20px;
-    left: 500px;
-    border: 2px solid #C13237;*/
     position: absolute;
     width: 200px;
     height: 20px;
@@ -430,7 +446,7 @@ body {
     border: 1px solid white;
     background: -webkit-linear-gradient(#77C4FB,#1A41B8);
     color: white;
-    top: 104px;
+    top: 230px;
     text-align: -webkit-center;
     margin: 0 auto;
     width: 150px;
@@ -445,3 +461,5 @@ body {
   display: none;
   z-index: 5;
 }
+
+

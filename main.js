@@ -22,7 +22,7 @@ var currentQuestion = null;
 
 var qData = [{question: 'Name a word that most people yell at their dogs',
 			  answers: ['no', 'sit', 'stop', 'down', 'fetch', 'jump'],
-			  scores: [27,23,14,7,6,5,4]
+			  scores: [27,23,14,7,6,5]
 			 },
 
 			{question: 'Name a fruit you can eat with one bite.',
@@ -31,12 +31,12 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 			},
 
 			{question: 'Name a holiday when people have parties.',
-			  answers: ['christmas', 'thanksgiving', 'halloween', "4th of july", 'labor day', 'new years eve'],
-			  scores: [35,21,11, 3,2,1]
+			  answers: ['christmas', 'thanksgiving', 'halloween', '4th of july', 'labor day', 'new years eve'],
+			  scores: [35,21,11,3,2,1]
 			}
 ];
 
-//Game Timer:
+/*//Game Timer:
 	var game = {score: 0, ellapsedTime: 3, messages: ''};
 	intervalID = setInterval(function(){
 		game.ellapsedTime--;
@@ -44,7 +44,7 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 		if (game.ellapsedTime<=0) {
 	        clearInterval(intervalID);
 	    };
-	},1000);
+	},1000);*/
 
 
 //"start game" button events
@@ -53,37 +53,101 @@ $("#startgamebutton").click(function() {
 	currentQuestion = Math.floor(Math.random()*qData.length);
 	var question = qData[currentQuestion].question;
 	$("#instruction1").hide();
-	$("#instruction2").show().delay(3000).fadeOut();
+	// $("#instruction2").show().delay(3000).fadeOut();
 	$(".startGame").hide();
-	$("#answerArea").show(3500)
-	$("#question").show(3500).text(question);
+	$("#answerArea").show(0)
+	$("#question").show(0).text(question);
 });
+
+//add enter key feature when submitting data in answer input field
+	$("#answerInput").keyup(function(event){
+    if(event.keyCode == 13){
+        $(".answerInputButton").click();
+    }
+	});
 
 // create an event listener for button-image (the answer input field) when it's clicked
 $(".answerInputButton").click(function(){
-// console log the answer from the input field
+	// console log the answer from the input field
 	var answerData = $("#answerInput").val()
+	//check if answer inputted is in the array of correct answers
+	var isInArray = ($.inArray(answerData, qData[currentQuestion].answers) !== -1)
+	//get the index of the correct answer from the array
+	var indexOfAnswer = qData[currentQuestion].answers.indexOf(answerData)
+	//get the score of the answer based on location of index of answer
+	var answerScore = qData[currentQuestion].scores[indexOfAnswer]
+
 	console.log(answerData)
-	//check the index of the answer
-	if($.inArray(answerData, qData[currentQuestion].answers) !== -1) {
+
+	if(isInArray) {
 		console.log("You got it right")
-		//get the index of the correct answer
-		var indexOfAnswer = qData[currentQuestion].answers.indexOf(answerData)
-		//find the score that corresponds to the index of the answer
-		console.log(qData[currentQuestion].scores[indexOfAnswer])
+		//console.log the score that corresponds to the index of the answer
+		console.log(answerScore)
+		//flip corresponding answer tile with the answer and score
+			if (indexOfAnswer === 0) {
+				$("#frontAnswer1").html(answerData + answerScore);
+			} else if (indexOfAnswer === 1) {
+				$("#frontAnswer2").html(answerData + answerScore);
+			} else if (indexOfAnswer === 2) {
+				$("#frontAnswer3").html(answerData + answerScore);
+			} else if (indexOfAnswer === 3) {
+				$("#frontAnswer4").html(answerData + answerScore);
+			} else if (indexOfAnswer === 4) {
+				$("#frontAnswer5").html(answerData + answerScore);
+			} else if (indexOfAnswer === 5)
+				$("#frontAnswer6").html(answerData + answerScore);
 	} else {
 	console.log ('Try again')
 	$(".redstrikes").show().delay(2000).fadeOut()
 	}
 })
 
+/*	function checkAnswer(){
+		if(!$('.input-buttons').is(':visible')) {
+			$('#startGameButton').click(function(){
+				$('messages').hide();
+				$("#question1").show();
+		})
+		}
+	};*/
 
-//Family 1 Last Name switch from input field to name
+
+/*//answer input values	
+	function flipTile(){
+		var $q1a1 = $('#frontAnswer1')
+		var $q1a2 = $('#frontAnswer2')
+		var $q1a3 = $('#frontAnswer3')
+		var $q1a4 = $('#frontAnswer4')
+		var $q1a5 = $('#frontAnswer5')
+		var playerAnswer = $("#answerInput").val().toLowerCase();
+	
+		if ((playerAnswer === "no") || (playerAnswer === "no dog")) {
+	    	$q1a1.html('<div class="answer-text">No</div>');
+	    } else if
+	    	((playerAnswer === "sit") || (playerAnswer === "sit down")) {
+	    	$q1a2.html('<div class="answer-text">Sit</div>');
+	    } else if
+	    	(playerAnswer === "stop") {
+	    	$q1a3.html('<div class="answer-text">Stop</div>');
+	    } else if
+	    	(playerAnswer === "down") {
+	    	$q1a4.html('<div class="answer-text">Down</div>');
+		} else if
+	    	(playerAnswer === "fetch") {
+	    	$q1a5.html('<div class="answer-text">Fetch</div>');
+	    } else if
+	    	(playerAnswer === "off") {
+	    	$q1a6.html('<div class="answer-text">Off</div>');
+	    } else if 
+	    	$("#1strike").show().hide(3000);
+	    };*/
+
+// -----------------------------------------------------------
+/*//Family 1 Last Name switch from input field to name
 	$("#family1-button").click(function() {
 	  var playerLastName = $("#family1-name").val();
 	  $("#family1-name").hide();
 	  $("#family1-button").hide();
-
 	  $("#family1-name-output").show().text(playerLastName + " Family");
 	});
 
@@ -97,10 +161,17 @@ $(".answerInputButton").click(function(){
 
 	  $("#family2-name-output").show().text(playerLastName + " Family");
 	});
+// -----------------------------------------------------------
+
+*/
+//Player 1 name switch from input field to name
+	$("#player1-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player1-button").click();
+    }
+	});
 
 
-
-//Player 1 Last Name switch from input field to name
 	$("#player1-button").click(function() {
 	  var playerName = $("#player1-input").val();
 	  $("#player1-input").hide();
@@ -110,7 +181,13 @@ $(".answerInputButton").click(function(){
 	});
 
 
-//Player 2 Last Name switch from input field to name
+//Player 2 name switch from input field to name
+	$("#player2-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player2-button").click();
+    }
+	});
+
 	$("#player2-button").click(function() {
 	  var playerName = $("#player2-input").val();
 	  $("#player2-input").hide();
@@ -120,7 +197,13 @@ $(".answerInputButton").click(function(){
 	});
 
 
-//Player 3 Last Name switch from input field to name
+//Player 3 name switch from input field to name
+	$("#player3-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player3-button").click();
+    }
+	});
+
 	$("#player3-button").click(function() {
 	  var playerName = $("#player3-input").val();
 	  $("#player3-input").hide();
@@ -130,7 +213,13 @@ $(".answerInputButton").click(function(){
 	});
 
 
-//Player 4 Last Name switch from input field to name
+//Player 4 name switch from input field to name
+	$("#player4-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player4-button").click();
+    }
+	});
+
 	$("#player4-button").click(function() {
 	  var playerName = $("#player4-input").val();
 	  $("#player4-input").hide();
@@ -138,43 +227,13 @@ $(".answerInputButton").click(function(){
 	  $("#player4-name-output").show().text(playerName);
 	});
 
-	function checkAnswer(){
-		if(!$('.input-buttons').is(':visible')) {
-			$('#startGameButton').click(function(){
-				$('messages').hide();
-				$("#question1").show();
-		})
-		}
-	};
+// Next steps:
+/* 	
+	- replace inner text? of answer tiles with the value of the correct answer
+	- switch player turns and animate current player
+	- check number of strikes and show appropriate red strikes
+	- winner of round guesses all answers
+	- timer on each turn
 
-//answer input values
-	//
-	// function checkAnswer(){
-	// 	var $q1a1 = $('#frontAnswer1')
-	//  var $q1a2 = $('#frontAnswer2')
-	//  var $q1a3 = $('#frontAnswer3')
-	//  var $q1a4 = $('#frontAnswer4')
-	//  var $q1a5 = $('#frontAnswer5')
-	//  var playerAnswer = $("#answerInput").val().toLowerCase();
-	//
-	// 	if ((playerAnswer === "no") || (playerAnswer === "no dog")) {
-	//     	$q1a1.html('<div class="answer-text">No</div>');
-	//     } else if
-	//     	((playerAnswer === "sit") || (playerAnswer === "sit down")) {
-	//     	$q1a2.html('<div class="answer-text">Sit</div>');
-	//     } else if
-	//     	(playerAnswer === "stop") {
-	//     	$q1a3.html('<div class="answer-text">Stop</div>');
-	//     } else if
-	//     	(playerAnswer === "down") {
-	//     	$q1a4.html('<div class="answer-text">Down</div>');
-	// 	} else if
-	//     	(playerAnswer === "fetch") {
-	//     	$q1a5.html('<div class="answer-text">Fetch</div>');
-	//     } else if
-	//     	(playerAnswer === "off") {}
-	//     	$q1a6.html('<div class="answer-text">Off</div>');
-	//     } else if
-	//     	$("#1strike").show().hide(3000);
-	//     };
-	//
+*/
+

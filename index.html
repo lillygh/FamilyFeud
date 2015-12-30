@@ -12,7 +12,6 @@
 <body>
 
 	<div class="container">
-		<div id="wrong"></div>
 
 	<!-- steve harvey image -->
 	<img src="steve harvey2.png" id="steveharvey">
@@ -22,6 +21,9 @@
 
 	<!-- answer board and background -->
 	<div id="boardBackground">
+		<!-- FF logo at top of board-->
+		<div id="logo-wrapper"><img src="FF logo2.png" id="logo"></div>
+
 		<div class="blackAnswerBackground">
 
 			<div class="answer">
@@ -44,8 +46,6 @@
 					<div class="answer-number">6</div>
 				</div>
 			</div>
-			<!-- FF logo at top of board-->
-			<div id="logo-wrapper"><img src="FF logo2.png" id="logo"></div>
 
 			<!-- score boxesa at sides of board -->
 			<div id="family1-scorebox">
@@ -60,81 +60,67 @@
 	</div>
 
 
-	<div id="player-wrapper">
-	<!-- Family 1 players: -->
+	<div class="player-wrapper">
+		
+		<!-- Family 1 players: -->
 		<!-- Family 1 Last Name -->
-		<input type="text" Placeholder="Family 1 Last Name" id="family1-name">
-			<div class="input-buttons" id="family1-button">
-				<img src="input button.png" id="button-image">
+		<div class="family1-wrapper">
+			<!-- Player 1 Name -->
+			<div class="Player1">
+				<img src="user icon2.png" id="player1-icon">
+					<input type="text" Placeholder="Player 1 Name" id="player1-input">
+						<div class="input-buttons" id="player1-button">
+							<img src="120px-Circle_arrow_right_font_awesome.svg.png" type="button"  id="button-image">
+						</div>
+					<div id="player1-name-output"></div>
 			</div>
-		<div id="family1-name-output"></div>
-
-
-		<!-- Player 1 Name -->
-		<div class="Player1">
-			<img src="user icon2.png" id="player1-icon">
-				<input type="text" Placeholder="Player 1 Name" id="player1-input">
-					<div class="input-buttons" id="player1-button">
-						<img src="input button.png" type="button"  id="button-image">
-					</div>
-				<div id="player1-name-output"></div>
-		</div>
-
 
 		<!-- Player 2 Name -->
-		<div class="Player2">
-			<img src="user icon3.png" id="player2-icon">
-				<input type="text" Placeholder="Player 2 Name" id="player2-input">
-					<div class="input-buttons" id="player2-button">
-						<img src="input button.png" type="button"  id="button-image">
-					</div>
-				<div id="player2-name-output"></div>
-		</div>
-
-	<!-- Family 2 players: -->
-		<!-- Family 2 Last Name -->
-		<input type="text" Placeholder="Family 2 Last Name" id="family2-name">
-			<div class="input-buttons" id="family2-button">
-				<img src="input button.png" id="button-image">
+			<div class="Player2">
+				<img src="user icon3.png" id="player2-icon">
+					<input type="text" Placeholder="Player 2 Name" id="player2-input">
+						<div class="input-buttons" id="player2-button">
+							<img src="120px-Circle_arrow_right_font_awesome.svg.png" type="button"  id="button-image">
+						</div>
+					<div id="player2-name-output"></div>
 			</div>
-		<div id="family2-name-output"></div>
+		</div>
 
-		<!-- Player 3 Name -->
-		<div class="Player3">
-			<img src="user icon.png" id="player3-icon">
-				<input type="text" Placeholder="Player 3 Name" id="player3-input">
-					<div class="input-buttons" id="player3-button">
-						<img src="input button.png" type="button"  id="button-image">
+		<!-- Family 2 players: -->
+		<div class="family2-wrapper">
+
+			<!-- Player 3 Name -->
+			<div class="Player3">
+				<img src="user icon.png" id="player3-icon">
+					<input type="text" Placeholder="Player 3 Name" id="player3-input">
+						<div class="input-buttons" id="player3-button">
+							<img src="120px-Circle_arrow_right_font_awesome.svg.png" type="button"  id="button-image">
+						</div>
+					<div id="player3-name-output"></div>
+			</div>
+
+			<!-- Player 4 Name -->
+			<div class="Player4">
+					<img src="user icon4.png" id="player4-icon">
+				<input type="text" Placeholder="Player 4 Name" id="player4-input">
+					<div class="input-buttons" id="player4-button">
+						<img src="120px-Circle_arrow_right_font_awesome.svg.png" type="button"  id="button-image">
 					</div>
-				<div id="player3-name-output"></div>
+				<div id="player4-name-output"></div>
+			</div>
+
+			<!-- Message area, between Family 1 and 2 -->
+			<div id="messageArea">
+				<p class="messages" id="instruction1">Enter your names to begin</p>
+				<p class="messages" id="instruction2">Family 1, Player 1 get ready!</p>
+				<div class="messages" id="question"></div>
+			</div>
+
+			<div id="answerArea">
+				<input type="text" Placeholder="Enter Your Answer" id="answerInput">
+					<img src="120px-Circle_arrow_right_font_awesome.svg.png" type="button" id="button-image" class="answerInputButton">
+			</div>
 		</div>
-
-		<!-- Player 4 Name -->
-		<div class="Player4">
-				<img src="user icon4.png" id="player4-icon">
-			<input type="text" Placeholder="Player 4 Name" id="player4-input">
-				<div class="input-buttons" id="player4-button">
-					<img src="input button.png" type="button"  id="button-image">
-				</div>
-			<div id="player4-name-output"></div>
-		</div>
-	</div>
-
-	<div id="messageArea">
-		<p class="messages" id="instruction1">Enter your names to begin</p>
-		<p class="messages" id="instruction2">Family 1, Player 1 get ready!</p>
-		<div class="messages" id="question"></div>
-		<!-- <p class="questions" id="question1">Name a word that most people yell at their dogs</p>
-		<p class="questions" id="question2">Name a word that most people yell at their dogs</p>
-		<p class="questions" id="question3">Name a word that most people yell at their dogs</p> -->
-	</div>
-
-
-
-	<div id="answerArea">
-		<input type="text" Placeholder="Enter Your Answer" id="answerInput">
-			<img src="input button.png" type="button" id="button-image" class="answerInputButton">
-	</div>
 
 	<div class="startGame">
 		<div id="startgamebutton">Start Game</div>
