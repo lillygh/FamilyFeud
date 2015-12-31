@@ -36,7 +36,7 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 			}
 ];
 
-/*//Game Timer:
+//Game Timer:
 	var game = {score: 0, ellapsedTime: 3, messages: ''};
 	intervalID = setInterval(function(){
 		game.ellapsedTime--;
@@ -44,7 +44,7 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 		if (game.ellapsedTime<=0) {
 	        clearInterval(intervalID);
 	    };
-	},1000);*/
+	},1000);
 
 
 //"start game" button events
@@ -68,7 +68,6 @@ $("#startgamebutton").click(function() {
 
 // create an event listener for button-image (the answer input field) when it's clicked
 $(".answerInputButton").click(function(){
-	// console log the answer from the input field
 	var answerData = $("#answerInput").val()
 	//check if answer inputted is in the array of correct answers
 	var isInArray = ($.inArray(answerData, qData[currentQuestion].answers) !== -1)
@@ -76,13 +75,16 @@ $(".answerInputButton").click(function(){
 	var indexOfAnswer = qData[currentQuestion].answers.indexOf(answerData)
 	//get the score of the answer based on location of index of answer
 	var answerScore = qData[currentQuestion].scores[indexOfAnswer]
+	//get the number of strikes per turn
+	var strikeNum = 0;
 
-	console.log(answerData)
+	// console log the answer from the input field
+	console.log("your answer is ", answerData)
 
 	if(isInArray) {
 		console.log("You got it right")
 		//console.log the score that corresponds to the index of the answer
-		console.log(answerScore)
+		console.log("you received ", answerScore," points")
 		//flip corresponding answer tile with the answer and score
 			if (indexOfAnswer === 0) {
 				$("#frontAnswer1").html(answerData + answerScore);
@@ -94,11 +96,13 @@ $(".answerInputButton").click(function(){
 				$("#frontAnswer4").html(answerData + answerScore);
 			} else if (indexOfAnswer === 4) {
 				$("#frontAnswer5").html(answerData + answerScore);
-			} else if (indexOfAnswer === 5)
+			} else if (indexOfAnswer === 5) 
 				$("#frontAnswer6").html(answerData + answerScore);
 	} else {
-	console.log ('Try again')
-	$(".redstrikes").show().delay(2000).fadeOut()
+		console.log ('Try again')
+		$("#onestrike").show().delay(2000).fadeOut()
+		var strikeNum = strikeNum+1
+		console.log("number of strikes is ", strikeNum)
 	}
 })
 
@@ -229,11 +233,13 @@ $(".answerInputButton").click(function(){
 
 // Next steps:
 /* 	
+	- only start game after players have entered their names
 	- replace inner text? of answer tiles with the value of the correct answer
 	- switch player turns and animate current player
 	- check number of strikes and show appropriate red strikes
 	- winner of round guesses all answers
 	- timer on each turn
-
+	- prevent page refresh when game is in play
+	- add 2 and 3 strikes
 */
 

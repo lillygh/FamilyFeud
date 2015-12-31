@@ -9,21 +9,25 @@ body {
 #steveharvey {
   position: absolute;
   width: 180px;
-  top: 40px;
-  left: 40px;
+  top: -90px;
+  left: -300px;
 }
 
 #game-time {
   position: absolute;
-  left: 600px;
-  top: 200px;
+  left: 650px;
+  top: -60px;
   font-size: 100px;
   color: white;
 }
 
+#button-image {
+  width: 22px;
+}
+
 /*-------------------------------*/
 /*answer board, scoreboxes, and FF logo*/
-#boardBackground {
+.boardBackground {
   background-color: #62B2A4;
   background-image: radial-gradient(white 23%, transparent 24%);
   background-size:20px 20px;
@@ -137,39 +141,7 @@ body {
   width: 500px;
   margin: 0 auto;
   left: -300px;
-  top: 50px;
-}
-
-#family1-name {
-  position: absolute;
-  width: 200px;
-  height: 20px;
-  top: 20px;
-  font-size: 16px;
-  border: 2px solid #C13237;
-  left: 20px;
-}
-
-#family1-name-output {
-  position: absolute;
-  width: 300px;
-  height: 40px;
-  font-size: 30px;
-  left: 35px;
-  display: none;
-  color: white;
-  top: 8px;
-}
-
-#family1-button {
-  position: absolute;
-  top: 22px;
-  left: 230px;
-  cursor: pointer;
-}
-
-#button-image {
-  width: 22px;
+  top: 15px;
 }
 
 #player1-icon {
@@ -247,36 +219,7 @@ body {
   width: 500px;
   margin: 0 auto;
   left: -300px;
-  top: 50px;
-}
-
-#family2-name {
-  position: absolute;
-  width: 200px;
-  height: 20px;
-  top: 20px;
-  font-size: 16px;
-  border: 2px solid #C13237;
-  left: 820px;
-}
-
-#family2-name-output {
-  position: absolute;
-  width: 300px;
-  height: 40px;
-  font-size: 30px;
-  left: 830px;
-  display: none;
-  color: white;
-  top: 8px;
-}
-
-#family2-button {
-  position: absolute;
-  width: 22px;
-  top: 21px;
-  left: 1030px;
-  cursor: pointer;
+  top: 15px;
 }
 
 #player3-icon {
@@ -381,7 +324,7 @@ body {
   font-size: 30px;
   color: white;
   text-align: center;
-  top: 60px;
+  top: 100px;
 }
 
 .messages {
@@ -425,14 +368,14 @@ body {
     width: 200px;
     height: 20px;
     left: 460px;
-    top: 15px;
+    top: 35px;
     border: 2px solid #C13237;
 }
 
 .answerInputButton {
     position: absolute;
     width: 22px;
-    top: 17px;
+    top: 37px;
     left: 670px;
     cursor: pointer;
 }
@@ -440,6 +383,9 @@ body {
 #answerArea {
   display:none;
 }
+
+/*-------------------------------*/
+/*start game button*/
 
 #startgamebutton {
     position: relative;
@@ -453,13 +399,32 @@ body {
     cursor: pointer;
     }
 
-.redstrikes {
+/*-------------------------------*/
+/*red strikes*/
+#onestrike {
   position: absolute;
-  left: 510px;
+  left: 200px;
   top: 110px;
   width: 100px;
   display: none;
   z-index: 5;
 }
 
+#twostrike {
+  position: absolute;
+  left: 200px;
+  top: 110px;
+  width: 100px;
+  display: none;
+  z-index: 5;
+}
+
+#threestrike {
+  position: absolute;
+  left: 200px;
+  top: 110px;
+  width: 100px;
+  display: none;
+  z-index: 5;
+}
 
