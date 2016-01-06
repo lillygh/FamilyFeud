@@ -62,7 +62,6 @@ body {
     position: relative;
     left: 3px;
     top: 5px;
-    transform: rotateX(0deg);
     width: 176px;
     height: 47px;
     display: inline-block;
@@ -72,22 +71,22 @@ body {
     margin: 3px;
 }
 
-.answerTile:active {
-  transform: rotateX(180deg);
-}
+.rightAnswer {
+  color: white;
+  text-align: center;
+  vertical-align: middle; 
+  font-size: 20px;
+  text-transform: uppercase;
+  position: relative;
+  left: 3px;
+  top: 5px;
+  width: 176px;
+  height: 47px;
+  display: inline-block;
+  background: -webkit-linear-gradient(#77C4FB,#1A41B8);
+  border: 1px solid white;
+  margin: 3px;
 
-.backTile {
-    position: relative;
-    left: 3px;
-    top: 5px;
-    width: 176px;
-    height: 47px;
-    display: inline-block;
-    text-align: -webkit-center;
-    border: 1px solid white;
-    margin: 3px;
-    background: #11155C;
-    display: none;
 }
 
 #logo {
@@ -171,11 +170,18 @@ body {
   position: absolute;
   width: 150px;
   height: 40px;
-  font-size: 30px;
-  left: 22px;
+  left: -20px;
+  font-size: 24px;
+  text-align: center;
   display: none;
   color: white;
   top: 220px;
+  /*text-transform: uppercase;*/
+}
+
+#player1-message {
+  position: absolute;
+  top: 240px;
 }
 
 #player2-icon {
@@ -206,11 +212,19 @@ body {
   position: absolute;
   width: 150px;
   height: 40px;
-  font-size: 30px;
-  left: 200px;
+  font-size: 24px;
+  left: 164px;
+  text-align: center;
   display: none;
   color: white;
   top: 220px;
+  text-transform: uppercase;
+}
+
+#player2-message {
+  position: absolute;
+  top: 240px;
+  left: 185px;
 }
 
 /*family 2*/
@@ -250,11 +264,20 @@ body {
   position: absolute;
   width: 150px;
   height: 40px;
-  font-size: 30px;
-  left: 820px;
+  font-size: 24px;
+  left: 781px;
   display: none;
   color: white;
   top: 220px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+#player3-message {
+  position: absolute;
+  top: 240px;
+  left: 793px;
+  width: 107px;
 }
 
 .Player4 {
@@ -290,11 +313,20 @@ body {
   position: absolute;
   width: 150px;
   height: 40px;
-  font-size: 30px;
-  left: 1000px;
+  font-size: 24px;
+  left: 960px;
   display: none;
   color: white;
+  text-align: center;
   top: 220px;
+  text-transform: uppercase;
+}
+
+#player4-message {
+  position: absolute;
+  top: 240px;
+  left: 983px;
+  width: 107px;
 }
 
 .answer-number {
@@ -306,6 +338,12 @@ body {
     font-weight: bolder;
     font-size: x-large;
     margin: 5px;
+}
+
+.turnName {
+  color: black;
+  text-decoration: underline;
+  text-transform: uppercase;
 }
 
 /*-------------------------------*/
@@ -343,8 +381,11 @@ body {
 #instruction2 {
     position: absolute;
     width: 400px;
+    font-size: 24px;
     text-align: center;
-    left: 380px;
+    left: 360px;
+    top: 50px;
+    color: red;
     display: none;
 }
 
@@ -353,6 +394,7 @@ body {
     width: 400px;
     text-align: center;
     left: 360px;
+    display: none;
 }
 
 #answerArea {
@@ -368,14 +410,14 @@ body {
     width: 200px;
     height: 20px;
     left: 460px;
-    top: 35px;
+    top: 55px;
     border: 2px solid #C13237;
 }
 
 .answerInputButton {
     position: absolute;
     width: 22px;
-    top: 37px;
+    top: 57px;
     left: 670px;
     cursor: pointer;
 }
@@ -392,9 +434,9 @@ body {
     border: 1px solid white;
     background: -webkit-linear-gradient(#77C4FB,#1A41B8);
     color: white;
-    top: 230px;
+    top: 225px;
     text-align: -webkit-center;
-    margin: 0 auto;
+    left: 480px;
     width: 150px;
     cursor: pointer;
     }

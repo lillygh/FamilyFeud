@@ -1,22 +1,130 @@
-/*
-	ENGINE FOR THE GAME
-	0. Players enter their names
-	1. Display question, display counter-down timer
-	2. Hide answers in each answer slot
-	3. Player1 can enter answer
-	4. If answer is correct, flip the slot containing the answer, award points for that answer to player1
-	6. If player1 get all answers, player1 get all points from this round, round ends, player1 starts next round
-	7. If player1 makes a wrong guess, player1 get "strike" (X).
-	8. Player1 is allowed 3 strikes, after 3rd strike, player2 starts, player 2 has 1 guess.
-	   8.1 If player2 guesses any remaining answer,
-	   		8.1.1 player2 wins round
-	   		8.1.2 player2 get all points of player1 from that round,
-	   8.2 If player doesn't guess any remaining answer
-	   		8.2.1 Player1 wins round
-	   		8.2.1 Player1 gets all the points from his correct guesses
-	9. Winner of current round starts next round
-	10. Each game has 3 rounds, after round 3, player with highest score wins
-*/
+
+var player1Name = "", player2Name = "", player3Name = "", player4Name = ""
+var hasWinner = 0
+var strikeCount = 0
+
+// -----------------PLAYERS------------------------------------------
+//Player 1 name switch from input field to name
+
+	$("#player1-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player1-button").click();
+    }
+	});
+	
+	$("#player1-button").click(function() {
+	  //if name field is not empty, replace field with name value
+	  if (($("#player1-input").val()) != "") {
+	  	var playerName = $("#player1-input").val().toUpperCase();
+		  $("#player1-input").hide();
+		  $("#player1-button").hide();
+		  player1Name = $("#player1-name-output").show().text(playerName);
+		  $("#player1-message").hide()
+	  //otherwise tell the user the field is empty
+		} else {
+			$("#player1-message").text("Enter your name")
+		}
+	});
+
+//Player 2 name switch from input field to name
+	$("#player2-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player2-button").click();
+    }
+	});
+
+	$("#player2-button").click(function() {
+	  //if name field is not empty, replace field with name value
+	  if (($("#player2-input").val()) != "") {
+	  	var playerName = $("#player2-input").val().toUpperCase();
+		  $("#player2-input").hide();
+		  $("#player2-button").hide();
+		  player2Name = $("#player2-name-output").show().text(playerName);
+		  $("#player2-message").hide()
+	  //otherwise tell the user the field is empty
+		} else {
+			$("#player2-message").text("Enter your name")
+		}
+	});
+
+//Player 3 name switch from input field to name
+	$("#player3-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player3-button").click();
+    }
+	});
+
+	$("#player3-button").click(function() {
+	  //if name field is not empty, replace field with name value
+	  if (($("#player3-input").val()) != "") {
+	  	var playerName = $("#player3-input").val().toUpperCase();
+		  $("#player3-input").hide();
+		  $("#player3-button").hide();
+		  player3Name = $("#player3-name-output").show().text(playerName);
+		  $("#player3-message").hide()
+	  //otherwise tell the user the field is empty
+		} else {
+			$("#player3-message").text("Enter your name")
+		}
+	});
+
+//Player 4 name switch from input field to name
+	$("#player4-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player4-button").click();
+    }
+	});
+
+	$("#player4-button").click(function() {
+	  //if name field is not empty, replace field with name value
+	  if (($("#player4-input").val()) != "") {
+	  	var playerName = $("#player4-input").val().toUpperCase();
+		  $("#player4-input").hide();
+		  $("#player4-button").hide();
+		  player4Name = $("#player4-name-output").show().text(playerName);
+		  $("#player4-message").hide()
+	  //otherwise tell the user the field is empty
+		} else {
+			$("#player4-message").text("Enter your name")
+		}
+	});
+
+// -----------------------------------------------------------
+// set the turn of the player
+
+function gameMsg(x){
+	return $("#instruction2").show().text(x).fadeOut(5000)
+}
+
+function setTurn(){
+	var r = Math.floor((Math.random() * 2) + 1);
+	hasWinner=0;
+	if(r==1){
+		player1Name = $("#player1-input").val().toUpperCase()
+		turn = player1Name;
+		gameMsg(player1Name+" you have 5 seconds to answer the following question...");
+	}
+	else{
+		player3Name = $("#player3-input").val().toUpperCase();
+		turn = player3Name;
+		gameMsg(player3Name+" you have 5 seconds to answer the following question...");
+	}
+}
+
+// -----------------------------------------------------------
+// if all players have entered their names, show the start game button
+
+/*$(".input-buttons").click(function(){
+	if(($("#player4-name-output").show().text() === true) && ($("#player3-name-output").show().text() === true) && ($("#player2-name-output").show().text() === true) && ($("#player1-name-output").show().text() === true)) {
+		console.log("all names must be filled out")
+	} else {
+		console.log("show start button")
+		$("#startgamebutton").show()
+	}
+});*/
+
+// --------------------QUESTION/ANSWERS---------------------------------------
+//question and answer data
 
 var currentQuestion = null;
 
@@ -36,7 +144,92 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 			}
 ];
 
-//Game Timer:
+// ----------------------START GAME BUTTOM and QUESTION DISPLAY-------------------------------------
+
+//"start game" button events
+$("#startgamebutton").click(function() {
+
+	//check if users have entered their names before starting the game
+	player1Name = $("#player1-input").val();
+	player2Name = $("#player2-input").val();
+	player3Name = $("#player3-input").val();
+	player4Name = $("#player4-input").val();
+	
+	if(player1Name=="" || player2Name=="" || player3Name=="" || player4Name==""){
+		$("#instruction2").show().text("Please enter all player names.");
+		return;
+	}
+	setTurn();
+	// randomize the question displayed in the array
+	currentQuestion = Math.floor(Math.random()*qData.length);
+	var question = qData[currentQuestion].question;
+	$("#instruction1").hide();
+	$(".startGame").hide();
+	$("#answerArea").show(5000)
+	$("#question").show(5000).text(question);
+	
+	//alert the user if they refresh the page during the game
+	window.onbeforeunload = function(e) {
+  	return 'The game is currently in play.';
+	}
+
+});
+
+
+// -----------------------------------------------------------
+//add enter key feature when submitting data in answer input field
+
+	$("#answerInput").keyup(function(event){
+    if(event.keyCode == 13){
+        $(".answerInputButton").click();
+    }
+	});
+
+// create an event listener for button-image (the answer input field) when it's clicked
+
+$(".answerInputButton").click(function(){
+	var answerData = $("#answerInput").val()
+	//check if answer inputted is in the array of correct answers
+	var isInArray = ($.inArray(answerData, qData[currentQuestion].answers) !== -1)
+	//get the index of the correct answer from the array
+	var indexOfAnswer = qData[currentQuestion].answers.indexOf(answerData)
+	//get the score of the answer based on location of index of answer
+	var answerScore = qData[currentQuestion].scores[indexOfAnswer]
+	//the text of the answer tile when the answer is right
+	var corrAnswer = answerData + " " + answerScore
+	
+	// console log the answer from the input field
+	console.log("your answer is ", answerData)
+
+	if(isInArray) {
+		console.log("You got it right")
+		//console.log the score that corresponds to the index of the answer
+		console.log("you received ", answerScore," points")
+		//flip corresponding answer tile with the answer and score
+			if (indexOfAnswer === 0) {
+				$("#frontAnswer1").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
+			} else if (indexOfAnswer === 1) {
+				$("#frontAnswer2").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
+			} else if (indexOfAnswer === 2) {
+				$("#frontAnswer3").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
+			} else if (indexOfAnswer === 3) {
+				$("#frontAnswer4").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
+			} else if (indexOfAnswer === 4) {
+				$("#frontAnswer5").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
+			} else if (indexOfAnswer === 5) 
+				$("#frontAnswer6").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
+	} else {
+		console.log ('Try again')
+		$("#onestrike").show().delay(2000).fadeOut()
+		strikeCount ++
+		console.log("number of strikes is ", strikeCount)
+	}
+})
+
+
+// -----------------------------------------------------------
+	//Game Timer:
+
 	var game = {score: 0, ellapsedTime: 3, messages: ''};
 	intervalID = setInterval(function(){
 		game.ellapsedTime--;
@@ -47,199 +240,19 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 	},1000);
 
 
-//"start game" button events
-$("#startgamebutton").click(function() {
-	// randomize the question displayed in the array
-	currentQuestion = Math.floor(Math.random()*qData.length);
-	var question = qData[currentQuestion].question;
-	$("#instruction1").hide();
-	// $("#instruction2").show().delay(3000).fadeOut();
-	$(".startGame").hide();
-	$("#answerArea").show(0)
-	$("#question").show(0).text(question);
-});
-
-//add enter key feature when submitting data in answer input field
-	$("#answerInput").keyup(function(event){
-    if(event.keyCode == 13){
-        $(".answerInputButton").click();
-    }
-	});
-
-// create an event listener for button-image (the answer input field) when it's clicked
-$(".answerInputButton").click(function(){
-	var answerData = $("#answerInput").val()
-	//check if answer inputted is in the array of correct answers
-	var isInArray = ($.inArray(answerData, qData[currentQuestion].answers) !== -1)
-	//get the index of the correct answer from the array
-	var indexOfAnswer = qData[currentQuestion].answers.indexOf(answerData)
-	//get the score of the answer based on location of index of answer
-	var answerScore = qData[currentQuestion].scores[indexOfAnswer]
-	//get the number of strikes per turn
-	var strikeNum = 0;
-
-	// console log the answer from the input field
-	console.log("your answer is ", answerData)
-
-	if(isInArray) {
-		console.log("You got it right")
-		//console.log the score that corresponds to the index of the answer
-		console.log("you received ", answerScore," points")
-		//flip corresponding answer tile with the answer and score
-			if (indexOfAnswer === 0) {
-				$("#frontAnswer1").html(answerData + answerScore);
-			} else if (indexOfAnswer === 1) {
-				$("#frontAnswer2").html(answerData + answerScore);
-			} else if (indexOfAnswer === 2) {
-				$("#frontAnswer3").html(answerData + answerScore);
-			} else if (indexOfAnswer === 3) {
-				$("#frontAnswer4").html(answerData + answerScore);
-			} else if (indexOfAnswer === 4) {
-				$("#frontAnswer5").html(answerData + answerScore);
-			} else if (indexOfAnswer === 5) 
-				$("#frontAnswer6").html(answerData + answerScore);
-	} else {
-		console.log ('Try again')
-		$("#onestrike").show().delay(2000).fadeOut()
-		var strikeNum = strikeNum+1
-		console.log("number of strikes is ", strikeNum)
-	}
-})
-
-/*	function checkAnswer(){
-		if(!$('.input-buttons').is(':visible')) {
-			$('#startGameButton').click(function(){
-				$('messages').hide();
-				$("#question1").show();
-		})
-		}
-	};*/
-
-
-/*//answer input values	
-	function flipTile(){
-		var $q1a1 = $('#frontAnswer1')
-		var $q1a2 = $('#frontAnswer2')
-		var $q1a3 = $('#frontAnswer3')
-		var $q1a4 = $('#frontAnswer4')
-		var $q1a5 = $('#frontAnswer5')
-		var playerAnswer = $("#answerInput").val().toLowerCase();
-	
-		if ((playerAnswer === "no") || (playerAnswer === "no dog")) {
-	    	$q1a1.html('<div class="answer-text">No</div>');
-	    } else if
-	    	((playerAnswer === "sit") || (playerAnswer === "sit down")) {
-	    	$q1a2.html('<div class="answer-text">Sit</div>');
-	    } else if
-	    	(playerAnswer === "stop") {
-	    	$q1a3.html('<div class="answer-text">Stop</div>');
-	    } else if
-	    	(playerAnswer === "down") {
-	    	$q1a4.html('<div class="answer-text">Down</div>');
-		} else if
-	    	(playerAnswer === "fetch") {
-	    	$q1a5.html('<div class="answer-text">Fetch</div>');
-	    } else if
-	    	(playerAnswer === "off") {
-	    	$q1a6.html('<div class="answer-text">Off</div>');
-	    } else if 
-	    	$("#1strike").show().hide(3000);
-	    };*/
 
 // -----------------------------------------------------------
-/*//Family 1 Last Name switch from input field to name
-	$("#family1-button").click(function() {
-	  var playerLastName = $("#family1-name").val();
-	  $("#family1-name").hide();
-	  $("#family1-button").hide();
-	  $("#family1-name-output").show().text(playerLastName + " Family");
-	});
-
-
-
-//Family 2 Last Name switch from input field to name
-	$("#family2-button").click(function() {
-	  var playerLastName = $("#family2-name").val();
-	  $("#family2-name").hide();
-	  $("#family2-button").hide();
-
-	  $("#family2-name-output").show().text(playerLastName + " Family");
-	});
-// -----------------------------------------------------------
-
-*/
-//Player 1 name switch from input field to name
-	$("#player1-input").keyup(function(event){
-    if(event.keyCode == 13){
-        $("#player1-button").click();
-    }
-	});
-
-
-	$("#player1-button").click(function() {
-	  var playerName = $("#player1-input").val();
-	  $("#player1-input").hide();
-	  $("#player1-button").hide();
-
-	  $("#player1-name-output").show().text(playerName);
-	});
-
-
-//Player 2 name switch from input field to name
-	$("#player2-input").keyup(function(event){
-    if(event.keyCode == 13){
-        $("#player2-button").click();
-    }
-	});
-
-	$("#player2-button").click(function() {
-	  var playerName = $("#player2-input").val();
-	  $("#player2-input").hide();
-	  $("#player2-button").hide();
-
-	  $("#player2-name-output").show().text(playerName);
-	});
-
-
-//Player 3 name switch from input field to name
-	$("#player3-input").keyup(function(event){
-    if(event.keyCode == 13){
-        $("#player3-button").click();
-    }
-	});
-
-	$("#player3-button").click(function() {
-	  var playerName = $("#player3-input").val();
-	  $("#player3-input").hide();
-	  $("#player3-button").hide();
-
-	  $("#player3-name-output").show().text(playerName);
-	});
-
-
-//Player 4 name switch from input field to name
-	$("#player4-input").keyup(function(event){
-    if(event.keyCode == 13){
-        $("#player4-button").click();
-    }
-	});
-
-	$("#player4-button").click(function() {
-	  var playerName = $("#player4-input").val();
-	  $("#player4-input").hide();
-	  $("#player4-button").hide();
-	  $("#player4-name-output").show().text(playerName);
-	});
-
 // Next steps:
+
 /* 	
 	- only start game after players have entered their names
-	- replace inner text? of answer tiles with the value of the correct answer
 	- switch player turns and animate current player
 	- check number of strikes and show appropriate red strikes
 	- winner of round guesses all answers
 	- timer on each turn
-	- prevent page refresh when game is in play
 	- add 2 and 3 strikes
+	- add an error message if entry is clicked without a value in the input field
+	- fix bug where values in the name fields count as inputted values (doesn't require submit)
+	- design flipped answer tiles
 */
 
