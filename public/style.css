@@ -1,0 +1,430 @@
+body {
+  background-color: #304EC3;
+}
+
+.container {
+  position: relative;
+}
+
+#steveharvey {
+  position: absolute;
+  width: 180px;
+  top: -90px;
+  left: -300px;
+}
+
+#game-time {
+  position: absolute;
+  left: 650px;
+  top: -60px;
+  font-size: 100px;
+  color: white;
+}
+
+#button-image {
+  width: 22px;
+}
+
+/*-------------------------------*/
+/*answer board, scoreboxes, and FF logo*/
+.boardBackground {
+  background-color: #62B2A4;
+  background-image: radial-gradient(white 23%, transparent 24%);
+  background-size:20px 20px;
+  background-position: 0 0, 10px 10px;
+          border-radius: 50%;
+  border: 12px solid #C13237;
+  display: table;
+  margin: 0 auto;
+  width: 500px;
+  height: 300px;
+  position: relative;
+  top: 100px;
+}
+
+#logo {
+  position: absolute;
+  text-align: center;
+  top: -98px;
+  width: 300px;
+  left: 95px;
+}
+
+#singles {
+  position: absolute;
+  left: 355px;
+  top: 7px;
+  width: 250px;
+}
+
+.blackAnswerBackground {
+  position: absolute;
+  height: 175px;
+  width: 378px;
+  background-color: black;
+  left: 60px;
+  top: 66px;
+}
+
+.answerTile {
+    position: relative;
+    left: 3px;
+    top: 5px;
+    width: 176px;
+    height: 47px;
+    display: inline-block;
+    text-align: -webkit-center;
+    background: -webkit-linear-gradient(#77C4FB,#1A41B8);
+    border: 1px solid white;
+    margin: 3px;
+}
+
+.rightAnswer {
+  color: white;
+  text-align: center;
+  vertical-align: middle; 
+  font-size: 20px;
+  text-transform: uppercase;
+  position: relative;
+  left: 3px;
+  top: 5px;
+  width: 176px;
+  height: 47px;
+  display: inline-block;
+  background: -webkit-linear-gradient(#77C4FB,#1A41B8);
+  border: 1px solid white;
+  margin: 3px;
+
+}
+
+#family1-scorebox {
+  position: absolute;
+  left: -210px;
+  top: 35px;
+  width: 150px;
+  height: 97px;
+  background-color: #C13237;
+}
+
+#family1-score-container {
+  position: absolute;
+  width: 100px;
+  height: 60px;
+  margin: 20px 10px 10px 25px;
+  background-color: black;
+}
+
+#family2-scorebox {
+  position: absolute;
+  left: 440px;
+  top: 35px;
+  width: 150px;
+  height: 97px;
+  background-color: #C13237;
+}
+
+#family2-score-container {
+  position: absolute;
+  width: 100px;
+  height: 60px;
+  margin: 20px 10px 10px 25px;
+  background-color: black;
+}
+
+/*-------------------------------*/
+/*player images and names*/
+
+/*family 1*/
+.family1-wrapper{
+  position: relative;
+  width: 500px;
+  margin: 0 auto;
+  left: -300px;
+  top: 15px;
+}
+
+#player1-icon {
+  position: absolute;
+  height: 150px;
+  top: 71px;
+  left: 180px;
+}
+
+#player1-input {
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  top: 230px;
+  left: 170px;
+  border: 2px solid #C13237;
+}
+
+#player1-button {
+  position: absolute;
+  width: 20px;
+  left: 280px;
+  top: 232px;
+  cursor: pointer;
+}
+
+#player1-name-output {
+  position: absolute;
+  width: 150px;
+  height: 40px;
+  font-size: 24px;
+  left: 145px;
+  text-align: center;
+  display: none;
+  color: white;
+  top: 225px;
+  text-transform: uppercase;
+}
+
+#player1-message {
+  position: absolute;
+  top: 246px;
+  left: 170px;
+  color: red;
+}
+
+/*family 2*/
+.family2-wrapper{
+  position: relative;
+  width: 500px;
+  margin: 0 auto;
+  left: -300px;
+  top: 15px;
+}
+
+#player3-icon {
+  position: absolute;
+  height: 160px;
+  top: 55px;
+  left: 1110px;
+}
+
+#player3-input {
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  top: 215px;
+  left: 1150px;
+  border: 2px solid #C13237;
+}
+
+#player3-button {
+  position: absolute;
+  width: 22px;
+  top: 217px;
+  left: 1260px;
+  cursor: pointer;
+}
+
+#player3-name-output {
+  position: absolute;
+  width: 150px;
+  height: 40px;
+  font-size: 24px;
+  left: 1132px;
+  display: none;
+  color: white;
+  top: 210px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+#player3-message {
+  position: absolute;
+  top: 235px;
+  left: 1150px;
+  width: 107px;
+  color: red;
+}
+
+.answer-number {
+    color: white;
+    background-color: #11155C;
+    height: 33px;
+    width: 33px;
+    border-radius: 50%;
+    font-weight: bolder;
+    font-size: x-large;
+    margin: 5px;
+}
+
+.turnName {
+  color: black;
+  text-decoration: underline;
+  text-transform: uppercase;
+}
+
+/*-------------------------------*/
+/*text of answer tile*/
+.answer-text {
+    color: white;
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+/*-------------------------------*/
+/*area with questions, instructions, and answer input*/
+#messageArea {
+  position: relative;
+  margin: 0 auto;
+  font-size: 30px;
+  color: white;
+  text-align: center;
+  top: 80px;
+}
+
+.messages {
+    position: absolute;
+    width: 400px;
+    text-align: center;
+}
+
+#instruction1 {
+    position: absolute;
+    width: 400px;
+    text-align: center;
+    left: 650px;
+}
+
+#instruction2 {
+    position: absolute;
+    width: 400px;
+    font-size: 20px;
+    text-align: center;
+    left: 650px;
+    top: 50px;
+    color: red;
+    display: none;
+    font-weight: bolder;
+}
+
+#instruction3 {
+    position: absolute;
+    width: 400px;
+    font-size: 20px;
+    text-align: center;
+    left: 650px;
+    color: red;
+    display: none;
+    font-weight: bolder;
+}
+
+#question {
+    position: absolute;
+    width: 400px;
+    text-align: center;
+    left: 650px;
+    top: 30px;
+    display: none;
+}
+
+#answerArea {
+  position: absolute;
+  width: 100%;
+  height: 30px;
+  font-size: 30px;
+  top: 160px;
+}
+
+#answer1Input {
+    position: absolute;
+    width: 200px;
+    height: 20px;
+    left: 410px;
+    top: 80px;
+    border: 2px solid #C13237;
+    display: none;
+}
+
+#answer2Input {
+    position: absolute;
+    width: 200px;
+    height: 20px;
+    left: 1100px;
+    top: 80px;
+    border: 2px solid #C13237;
+    display: none;
+}
+
+.answerInputButton {
+    position: absolute;
+    width: 22px;
+    top: 82px;
+    left: 955px;
+    cursor: pointer;
+}
+
+#button-image1 {
+  width: 22px;
+  left: 620px;
+  display: none;
+}
+
+#button-image2 {
+  width: 22px;
+  left: 1310px;
+  display: none;
+}
+
+/*-------------------------------*/
+/*start game button*/
+
+#startgamebutton {
+    position: relative;
+    border: 1px solid white;
+    background: -webkit-linear-gradient(#77C4FB,#1A41B8);
+    color: white;
+    top: 200px;
+    text-align: -webkit-center;
+    left: 780px;
+    width: 150px;
+    cursor: pointer;
+    }
+
+/*-------------------------------*/
+/*red strikes*/
+#onestrike {
+  position: absolute;
+  left: 200px;
+  top: 110px;
+  width: 100px;
+  display: none;
+  z-index: 5;
+}
+
+#twostrike {
+  position: absolute;
+  left: 200px;
+  top: 110px;
+  width: 100px;
+  display: none;
+  z-index: 5;
+}
+
+#threestrike {
+  position: absolute;
+  left: 200px;
+  top: 110px;
+  width: 100px;
+  display: none;
+  z-index: 5;
+}
+
+/*-------------------------------*/
+/* green checkmark */
+#greencheckmark {
+  position: absolute;
+  left: 200px;
+  top: 110px;
+  width: 100px;
+  display: none;
+  z-index: 5;
+  display: none;
+}
+
+
+
