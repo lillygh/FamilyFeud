@@ -3,26 +3,70 @@ var player1Name = "", player2Name = ""
 var hasWinner = 0
 var strikeCount = 0
 
-// -----------------PLAYER NAMES------------------------------------------
+// -----------------PLAYERS------------------------------------------
+// -----------------TEST START------------------------------------------
 
 $("#startgamebutton").click(function (){
 
 	player1Name = $("#player1-input").val().toUpperCase();
 	player2Name = $("#player2-input").val().toUpperCase();
 
-	if (player1Name=="" || player2Name=="") {
-		$("#instruction2").show().text("Please enter all player names.");
-	}
-	else if (player1Name!="" || player2Name!="") {
-		  $("#player1-input").hide();
-		  $("#player1-name-output").show().text(player1Name);
+	if(player1Name!="" || player2Name1=""){
+		$("#player1-message").text("Enter your name")
 
-		  $("#player2-input").hide();
-		  $("#player2-name-output").show().text(player2Name);
+	if(player1Name=="" || player2Name==""){
+		$("#player1-message").text("Enter your name")
+	return;
 	} 
+	setTurn();
 });
 
-// --------------------SET WHO GOES FIRST-----------------------------------
+// -----------------TEST END------------------------------------------
+/*
+//Player 1 name switch from input field to name
+
+	$("#player1-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player1-button").click();
+    }
+	});
+	
+	$("#player1-button").click(function() {
+	  //if name field is not empty, replace field with name value
+	  if (($("#player1-input").val()) != "") {
+	  	var playerName = $("#player1-input").val().toUpperCase();
+		  $("#player1-input").hide();
+		  $("#player1-button").hide();
+		  player1Name = $("#player1-name-output").show().text(playerName);
+		  $("#player1-message").hide()
+	  //otherwise tell the user the field is empty
+		} else {
+			$("#player1-message").text("Enter your name")
+		}
+	});
+
+//Player 3 name switch from input field to name
+	$("#player2-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#player2-button").click();
+    }
+	});
+
+	$("#player2-button").click(function() {
+	  //if name field is not empty, replace field with name value
+	  if (($("#player2-input").val()) != "") {
+	  	var playerName = $("#player2-input").val().toUpperCase();
+		  $("#player2-input").hide();
+		  $("#player2-button").hide();
+		  player2Name = $("#player2-name-output").show().text(playerName);
+		  $("#player2-message").hide()
+	  //otherwise tell the user to enter their name
+		} else {
+			$("#player2-message").text("Enter your name")
+		}
+	});
+*/
+// -----------------------------------------------------------
 // set the turn of the player
 
 function gameMsg(x){
@@ -35,18 +79,19 @@ function setTurn(){
 	if(r==1){
 		player1Name = $("#player1-input").val().toUpperCase()
 		turn = player1Name;
-		gameMsg(player1Name + " goes first. You have 1 minute and 3 chances to answer the following question. Get ready!");
+		gameMsg(player1Name + " goes first. You have 1 minute and 3 chances to answer the following question...");
 		$("#answer1Input").fadeIn(8000)
 		$("#button-image1").fadeIn(8000)
 	}
 	else{
 		player2Name = $("#player2-input").val().toUpperCase();
 		turn = player2Name;
-		gameMsg(player2Name + " goes first. You have 1 minute and 3 chances to answer the following question. Get ready!");
+		gameMsg(player2Name + " goes first. You have 1 minute and 3 chances to answer the following question...");
 		$("#answer2Input").fadeIn(8000)
 		$("#button-image2").fadeIn(8000)
 	}
 }
+
 
 // --------------------QUESTION/ANSWERS---------------------------------------
 //question and answer data
@@ -75,16 +120,14 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 $("#startgamebutton").click(function() {
 
 	//check if users have entered their names before starting the game
-	player1Name = $("#player1-input").val().toUpperCase();
-	player2Name = $("#player2-input").val().toUpperCase();
+	player1Name = $("#player1-name-output")
+	player2Name = $("#player2-name-output")
 	
 	if(player1Name=="" || player2Name==""){
 		$("#instruction2").show().text("Please enter all player names.");
 		return;
-	} else if (player1Name!="" || player2Name!=""){
-		$("#instruction2").hide()
+	}
 	setTurn();
-}
 
 	// randomize the question displayed in the array
 	currentQuestion = Math.floor(Math.random()*qData.length);
@@ -103,22 +146,18 @@ $("#startgamebutton").click(function() {
 
 });
 
-// ----------------------ANSWER INPUT-------------------------------------
+
+// -----------------------------------------------------------
 //add enter key feature when submitting data in answer input field
 
-	$("#answer1Input").keyup(function(event){
+	$("#answerInput").keyup(function(event){
     if(event.keyCode == 13){
         $(".answerInputButton").click();
     }
 	});
 
-	$("#answer2Input").keyup(function(event){
-    if(event.keyCode == 13){
-        $(".answerInputButton").click();
-    }
-	});
+// create an event listener for button-image (the answer input field) when it's clicked
 
-// create an event listener for the answer input field when it's clicked
 $(".answerInputButton").click(function(){
 	var answerData = $("#answerInput").val()
 	//check if answer inputted is in the array of correct answers
@@ -166,7 +205,7 @@ $(".answerInputButton").click(function(){
 	//Game Timer:
 
 	function gameTimer() {
-	var game = {score: 0, ellapsedTime: 60, messages: ''};
+	var game = {score: 0, ellapsedTime: 3, messages: ''};
 	intervalID = setInterval(function(){
 		game.ellapsedTime--;
 		$('#game-time').text(' ' + game.ellapsedTime);
