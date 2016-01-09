@@ -1,7 +1,9 @@
 
-var player1Name = "", player2Name = ""
+var player1Name = ""
+var player2Name = ""
 var hasWinner = 0
 var strikeCount = 0
+var rightAnswerCount = 0
 
 // -----------------PLAYER NAMES------------------------------------------
 
@@ -42,7 +44,7 @@ function setTurn(){
 	else{
 		player2Name = $("#player2-input").val().toUpperCase();
 		turn = player2Name;
-		gameMsg(player2Name + " goes first. You have 1 minute and 3 chances to answer the following question. Get ready!");
+		gameMsg(player2Name + " goes first." + "\n" + "You have 1 minute and 3 chances to answer the following question. Get ready!");
 		$("#answer2Input").fadeIn(8000)
 		$("#button-image2").fadeIn(8000)
 	}
@@ -95,6 +97,34 @@ $("#startgamebutton").click(function() {
 	$("#question").show(8000).text(question);
 	
 	gameTimer()
+
+	//if there's already a winner, prompt play again button
+	if(hasWinner==1){
+		$("#startgamebutton").text("Play again");
+		return;
+	}
+
+
+	//switch player turns
+
+	if(turn==player1Name){
+		var ifWon = winnerCheck(player1Name)
+		if(!ifWon){
+			if(strikeCount===3){
+				boardMsg(player2Name + " you can steal the points if you can guess any of the remaining answers in 5 seconds.");
+				strikeCount=0;
+				return;
+			} else {
+				turn = player2Name;
+				boardMsg(player2Name+"'s turn now!");
+			}
+			return;	
+		}
+		else{
+			return;
+		}	
+	}
+
 	
 	//alert the user if they refresh the page during the game
 	window.onbeforeunload = function(e) {
@@ -134,6 +164,7 @@ $(".answerInputButton").click(function(){
 	console.log("your answer is ", answerData)
 
 	if(isInArray) {
+		rightAnswerCount ++
 		console.log("You got it right")
 		//console.log the score that corresponds to the index of the answer
 		console.log("you received ", answerScore," points")
@@ -153,9 +184,9 @@ $(".answerInputButton").click(function(){
 			} else if (indexOfAnswer === 5) 
 				$("#frontAnswer6").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
 	} else {
+		strikeCount ++
 		console.log ('Try again')
 		$("#onestrike").show().delay(2000).fadeOut()
-		strikeCount ++
 		console.log("number of strikes is ", strikeCount)
 	}
 	// if strikeCount === 3, run switch players function
@@ -176,18 +207,31 @@ $(".answerInputButton").click(function(){
 	},1000);
 }
 
+// ---------------------Check for Winner--------------------------------------
+
+function winnerCheck(playerName){
+	if(rightAnswerCount === 6){
+		gameMsg(playerName + " won the game!");
+		hasWinner = 1;
+		strikeCount=0;
+		rightAnswerCount = 0;
+		$("#startgamebutton").text("Play again");
+		return true;
+	}
+	return false;
+}
 
 
 // -----------------------------------------------------------
 // Next steps:
 
 /* 	
-	- switch player turns and animate current player
+	- switch player turns
 	- check number of strikes and show appropriate red strikes
 	- keep score in scorebox
 	- winner of round guesses all answers
-	- timer on each turn
-	- add 2 and 3 strikes
+	- set game timer on each turn
+	- add images for 2 and 3 strikes
 	- add an error message if entry is clicked without a value in the input field
 	- fix bug where values in the name fields count as inputted values (doesn't require submit)
 	- design flipped answer tiles
