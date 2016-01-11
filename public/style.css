@@ -83,7 +83,7 @@ body {
   color: white;
   text-align: center;
   vertical-align: middle; 
-  font-size: 20px;
+  font-size: 19px;
   text-transform: uppercase;
   position: relative;
   left: 3px;
@@ -329,7 +329,14 @@ body {
   top: 160px;
 }
 
-#answer1Input {
+.answerInput {
+  position: absolute;
+  left: 780px;
+  top: 55px;
+  display: none;
+}
+
+/*#answer1Input {
     position: absolute;
     width: 200px;
     height: 20px;
@@ -347,25 +354,18 @@ body {
     top: 85px;
     border: 2px solid #C13237;
     display: none;
-}
+}*/
 
 .answerInputButton {
     position: absolute;
     width: 22px;
-    top: 87px;
-    left: 955px;
     cursor: pointer;
 }
 
-#button-image1 {
+#button-image {
   width: 22px;
-  left: 620px;
-  display: none;
-}
-
-#button-image2 {
-  width: 22px;
-  left: 1310px;
+  left: 918px;
+  top: 53px;
   display: none;
 }
 
@@ -397,18 +397,18 @@ body {
 
 #twostrike {
   position: absolute;
-  left: 200px;
+  left: 150px;
   top: 110px;
-  width: 100px;
+  width: 200px;
   display: none;
   z-index: 5;
 }
 
 #threestrike {
   position: absolute;
-  left: 200px;
+  left: 100px;
   top: 110px;
-  width: 100px;
+  width: 300px;
   display: none;
   z-index: 5;
 }
@@ -424,6 +424,3 @@ body {
   z-index: 5;
   display: none;
 }
-
-
-

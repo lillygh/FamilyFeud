@@ -1,11 +1,13 @@
 
 var player1Name = ""
 var player2Name = ""
+var currPlayer = ""
 var hasWinner = 0
 var strikeCount = 0
-var rightAnswerCount = 0
+var answerCount = 0
 
-// -----------------PLAYER NAMES------------------------------------------
+
+// -----------------PLAYERS------------------------------------------
 
 $("#startgamebutton").click(function (){
 
@@ -24,7 +26,7 @@ $("#startgamebutton").click(function (){
 	} 
 });
 
-// --------------------SET WHO GOES FIRST-----------------------------------
+// --------------------WHO GOES FIRST-----------------------------------
 // set the turn of the player
 
 function gameMsg(x){
@@ -36,18 +38,35 @@ function setTurn(){
 	hasWinner=0;
 	if(r==1){
 		player1Name = $("#player1-input").val().toUpperCase()
-		turn = player1Name;
+		currPlayer = player1Name
 		gameMsg(player1Name + " goes first. You have 1 minute and 3 chances to answer the following question. Get ready!");
-		$("#answer1Input").fadeIn(8000)
-		$("#button-image1").fadeIn(8000)
+		$(".answerInput").show(8000)
+		$("#button-image").show(8000)
 	}
 	else{
 		player2Name = $("#player2-input").val().toUpperCase();
-		turn = player2Name;
-		gameMsg(player2Name + " goes first." + "\n" + "You have 1 minute and 3 chances to answer the following question. Get ready!");
-		$("#answer2Input").fadeIn(8000)
-		$("#button-image2").fadeIn(8000)
+		currPlayer = player2Name
+		gameMsg(player2Name + " goes first. You have 1 minute and 3 chances to answer the following question. Get ready!");
+		$(".answerInput").show(8000)
+		$("#button-image").show(8000)
 	}
+}
+
+// --------------------SWITCH PLAYER TURN---------------------------------------
+
+// --------------------RESET THE ANSWER BOARD---------------------------------------
+
+function init(){
+        currPlayer = "";
+        hasWinner = 0;
+        answerCount=0;
+        strikeCount = 0;
+        $("#frontAnswer1").addClass("answerTile")
+        $("#frontAnswer2").addClass("answerTile")
+        $("#frontAnswer3").addClass("answerTile")
+        $("#frontAnswer4").addClass("answerTile")
+        $("#frontAnswer5").addClass("answerTile")
+        $("#frontAnswer6").addClass("answerTile")
 }
 
 // --------------------QUESTION/ANSWERS---------------------------------------
@@ -56,7 +75,7 @@ function setTurn(){
 var currentQuestion = null;
 
 var qData = [{question: 'Name a word that most people yell at their dogs',
-			  answers: ['no', 'sit', 'stop', 'down', 'fetch', 'jump'],
+			  answers: ['no', 'sit', 'stay', 'down', 'fetch', 'jump'],
 			  scores: [27,23,14,7,6,5]
 			 },
 
@@ -93,38 +112,9 @@ $("#startgamebutton").click(function() {
 	var question = qData[currentQuestion].question;
 	$("#instruction1").hide();
 	$(".startGame").hide();
-	$("#answerArea").show(8000)
-	$("#question").show(8000).text(question);
+	$("#answerArea").show()
+	$("#question").show().text(question);
 	
-	gameTimer()
-
-	//if there's already a winner, prompt play again button
-	if(hasWinner==1){
-		$("#startgamebutton").text("Play again");
-		return;
-	}
-
-
-	//switch player turns
-
-	if(turn==player1Name){
-		var ifWon = winnerCheck(player1Name)
-		if(!ifWon){
-			if(strikeCount===3){
-				boardMsg(player2Name + " you can steal the points if you can guess any of the remaining answers in 5 seconds.");
-				strikeCount=0;
-				return;
-			} else {
-				turn = player2Name;
-				boardMsg(player2Name+"'s turn now!");
-			}
-			return;	
-		}
-		else{
-			return;
-		}	
-	}
-
 	
 	//alert the user if they refresh the page during the game
 	window.onbeforeunload = function(e) {
@@ -133,24 +123,22 @@ $("#startgamebutton").click(function() {
 
 });
 
-// ----------------------ANSWER INPUT-------------------------------------
+
+// -----------------------------------------------------------
 //add enter key feature when submitting data in answer input field
 
-	$("#answer1Input").keyup(function(event){
+	$(".answerInput").keyup(function(event){
     if(event.keyCode == 13){
         $(".answerInputButton").click();
     }
 	});
 
-	$("#answer2Input").keyup(function(event){
-    if(event.keyCode == 13){
-        $(".answerInputButton").click();
-    }
-	});
 
-// create an event listener for the answer input field when it's clicked
+// create an event listener for button-image (the answer input field) when it's clicked
+
 $(".answerInputButton").click(function(){
-	var answerData = $("#answerInput").val()
+
+	var answerData = $(".answerInput").val()
 	//check if answer inputted is in the array of correct answers
 	var isInArray = ($.inArray(answerData, qData[currentQuestion].answers) !== -1)
 	//get the index of the correct answer from the array
@@ -161,11 +149,34 @@ $(".answerInputButton").click(function(){
 	var corrAnswer = answerData + " " + answerScore
 	
 	// console log the answer from the input field
-	console.log("your answer is ", answerData)
+	console.log(currPlayer + " your answer is ", answerData)
 
 	if(isInArray) {
-		rightAnswerCount ++
-		console.log("You got it right")
+		if (currPlayer === player1Name) {
+			answerCount++			
+			console.log(currPlayer + ". You got " + answerCount + " answers right")
+			//check if winner
+			if (answerCount === 6) {
+				gameMsg(currPlayer + " has won this round! " + currPlayer + ", get ready to start the next round")
+				//reset board to next question
+				//tally points in scorebox
+				$("#answerArea").hide()
+				$("#question").hide()
+			}
+		} 
+		else if (currPlayer === player2Name) {
+			answerCount++			
+			console.log(currPlayer + ". You got " + answerCount + " answers right")
+			//check if winner
+			if (answerCount === 6) {
+				gameMsg(currPlayer + " has won this round! " + currPlayer + ", get ready to start the next round")
+				//reset board to next question
+
+				//tally points in scorebox
+				$("#answerArea").hide()
+				$("#question").hide()
+			}
+		}
 		//console.log the score that corresponds to the index of the answer
 		console.log("you received ", answerScore," points")
 		// show green checkmark
@@ -184,14 +195,43 @@ $(".answerInputButton").click(function(){
 			} else if (indexOfAnswer === 5) 
 				$("#frontAnswer6").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
 	} else {
-		strikeCount ++
-		console.log ('Try again')
-		$("#onestrike").show().delay(2000).fadeOut()
+		if (currPlayer === player1Name) {
+			strikeCount ++
+			console.log ('Try again')
+				if (strikeCount === 1) {
+					$("#onestrike").show().delay(2000).fadeOut()
+				} else if (strikeCount === 2) {
+					$("#twostrike").show().delay(2000).fadeOut()
+				} else if (strikeCount === 3) {
+					$("#threestrike").show().delay(2000).fadeOut()
+					//switch turns after a player gets 3 strikes
+					currPlayer = player2Name
+					//reset strike count to 0 for player 2
+					console.log(currPlayer + "'s turn now.")
+					//show message to next player that they can steal points for guessing any answer correctly in 5 seconds
+					gameMsg(currPlayer + ", you have 5 seconds to guess any remaining answer correctly and steal all the points. Get ready!")
+				}
+		}
+		else if (currPlayer === player2Name) {
+			strikeCount ++
+			console.log ('Try again')
+				if (strikeCount === 1) {
+					$("#onestrike").show().delay(2000).fadeOut()
+				} else if (strikeCount === 2) {
+					$("#twostrike").show().delay(2000).fadeOut()
+				} else if (strikeCount === 3) {
+					$("#threestrike").show().delay(2000).fadeOut()
+					//switch turns after a player gets 3 strikes
+					currPlayer = player1Name
+					//reset strike count to 0 for player 1
+					console.log(currPlayer + "'s turn now.")
+					//show message to next player that they can steal points for guessing any answer correctly in 5 seconds
+					gameMsg(currPlayer + ", you have 5 seconds to guess any remaining answer correctly and steal all the points. Get ready!")
+				}
+		}
 		console.log("number of strikes is ", strikeCount)
 	}
-	// if strikeCount === 3, run switch players function
 })
-
 
 // -----------------------------------------------------------
 	//Game Timer:
@@ -207,33 +247,18 @@ $(".answerInputButton").click(function(){
 	},1000);
 }
 
-// ---------------------Check for Winner--------------------------------------
-
-function winnerCheck(playerName){
-	if(rightAnswerCount === 6){
-		gameMsg(playerName + " won the game!");
-		hasWinner = 1;
-		strikeCount=0;
-		rightAnswerCount = 0;
-		$("#startgamebutton").text("Play again");
-		return true;
-	}
-	return false;
-}
-
-
 // -----------------------------------------------------------
 // Next steps:
 
 /* 	
 	- switch player turns
-	- check number of strikes and show appropriate red strikes
+	- limit steal points round to just 1 chance
+	- add reset board function
+	- omit a previous used question from the array
 	- keep score in scorebox
-	- winner of round guesses all answers
-	- set game timer on each turn
-	- add images for 2 and 3 strikes
-	- add an error message if entry is clicked without a value in the input field
-	- fix bug where values in the name fields count as inputted values (doesn't require submit)
+	- winner of round must guess all answers
+	- timer on each turn
 	- design flipped answer tiles
+	- animate current player
 */
 
