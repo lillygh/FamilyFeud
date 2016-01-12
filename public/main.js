@@ -5,7 +5,10 @@ var currPlayer = ""
 var hasWinner = 0
 var strikeCount = 0
 var answerCount = 0
-
+var totalscore1=0;
+var totalscore2 =0;
+var currentQuestion;
+var currQuestion;
 
 // -----------------PLAYERS------------------------------------------
 
@@ -30,7 +33,15 @@ $("#startgamebutton").click(function (){
 // set the turn of the player
 
 function gameMsg(x){
-	return $("#instruction3").show().text(x).fadeOut(8000)
+	 	$("#instruction3").show().text(x);
+
+	 setTimeout(function(){ 
+	 	$("#instruction3").hide();
+	 		$("#question").show();
+	 		$("#answerArea").show();
+	 		$(".answerInput").show();
+		$("#button-image").show();
+	 }, 5000);
 }
 
 function setTurn(){
@@ -40,39 +51,47 @@ function setTurn(){
 		player1Name = $("#player1-input").val().toUpperCase()
 		currPlayer = player1Name
 		gameMsg(player1Name + " goes first. You have 1 minute and 3 chances to answer the following question. Get ready!");
-		$(".answerInput").show(8000)
-		$("#button-image").show(8000)
+	 setInterval(function() 
+	    {
+			$("#player1-icon").effect( "bounce", { times: 1 }, "slow" );
+	     },500);
 	}
 	else{
 		player2Name = $("#player2-input").val().toUpperCase();
 		currPlayer = player2Name
 		gameMsg(player2Name + " goes first. You have 1 minute and 3 chances to answer the following question. Get ready!");
-		$(".answerInput").show(8000)
-		$("#button-image").show(8000)
+	 setInterval(function() 
+	    {
+			$("#player2-icon").effect( "bounce", { times: 1 }, "slow" );
+	     },500);
 	}
 }
 
 // --------------------SWITCH PLAYER TURN---------------------------------------
 
-// --------------------RESET THE ANSWER BOARD---------------------------------------
 
-function init(){
-        currPlayer = "";
+// --------------------SUM OF SCORES---------------------------------------
+
+
+
+
+// --------------------NEXT ROUND---------------------------------------
+
+function nextRound(){
         hasWinner = 0;
         answerCount=0;
         strikeCount = 0;
-        $("#frontAnswer1").addClass("answerTile")
-        $("#frontAnswer2").addClass("answerTile")
-        $("#frontAnswer3").addClass("answerTile")
-        $("#frontAnswer4").addClass("answerTile")
-        $("#frontAnswer5").addClass("answerTile")
-        $("#frontAnswer6").addClass("answerTile")
+        $("#frontAnswer1").removeClass("rightAnswer").addClass("answerTile")
+        $("#frontAnswer2").removeClass("rightAnswer").addClass("answerTile")
+        $("#frontAnswer3").removeClass("rightAnswer").addClass("answerTile")
+        $("#frontAnswer4").removeClass("rightAnswer").addClass("answerTile")
+        $("#frontAnswer5").removeClass("rightAnswer").addClass("answerTile")
+        $("#frontAnswer6").removeClass("rightAnswer").addClass("answerTile")
+        showQuestion()
 }
 
 // --------------------QUESTION/ANSWERS---------------------------------------
 //question and answer data
-
-var currentQuestion = null;
 
 var qData = [{question: 'Name a word that most people yell at their dogs',
 			  answers: ['no', 'sit', 'stay', 'down', 'fetch', 'jump'],
@@ -80,7 +99,7 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 			 },
 
 			{question: 'Name a fruit you can eat with one bite.',
-			  answers: ['strawberry', 'grape', 'blueberry', 'raspberry', 'plum', 'banana'],
+			  answers: ['strawberry', 'grape', 'blueberry', 'raspberry', 'cherry', 'blackberry'],
 			  scores: [56,17,9,3,2,1]
 			},
 
@@ -89,6 +108,18 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 			  scores: [35,21,11,3,2,1]
 			}
 ];
+
+// ----------------------RANDOMIZE QUESTIONS-------------------------------------
+
+	// randomize the question displayed in the array
+	function showQuestion() {
+	  currentQuestion = Math.floor(Math.random()*qData.length);
+		currQuestion = qData[currentQuestion];
+		qData.splice(currentQuestion, 1)
+		$("#instruction1").hide();
+		$(".startGame").hide();
+		$("#question").text(currQuestion.question);
+	}
 
 // ----------------------START GAME BUTTOM and QUESTION DISPLAY-------------------------------------
 
@@ -105,17 +136,9 @@ $("#startgamebutton").click(function() {
 	} else if (player1Name!="" || player2Name!=""){
 		$("#instruction2").hide()
 	setTurn();
-}
+}	
+	showQuestion()
 
-	// randomize the question displayed in the array
-	currentQuestion = Math.floor(Math.random()*qData.length);
-	var question = qData[currentQuestion].question;
-	$("#instruction1").hide();
-	$(".startGame").hide();
-	$("#answerArea").show()
-	$("#question").show().text(question);
-	
-	
 	//alert the user if they refresh the page during the game
 	window.onbeforeunload = function(e) {
   	return 'The game is currently in play.';
@@ -140,20 +163,22 @@ $(".answerInputButton").click(function(){
 
 	var answerData = $(".answerInput").val()
 	//check if answer inputted is in the array of correct answers
-	var isInArray = ($.inArray(answerData, qData[currentQuestion].answers) !== -1)
+	var isInArray = ($.inArray(answerData, currQuestion.answers) !== -1)
 	//get the index of the correct answer from the array
-	var indexOfAnswer = qData[currentQuestion].answers.indexOf(answerData)
+	var indexOfAnswer = currQuestion.answers.indexOf(answerData)
 	//get the score of the answer based on location of index of answer
-	var answerScore = qData[currentQuestion].scores[indexOfAnswer]
+	var answerScore = currQuestion.scores[indexOfAnswer]
 	//the text of the answer tile when the answer is right
 	var corrAnswer = answerData + " " + answerScore
-	
+
 	// console log the answer from the input field
 	console.log(currPlayer + " your answer is ", answerData)
 
 	if(isInArray) {
 		if (currPlayer === player1Name) {
-			answerCount++			
+			answerCount++;
+			totalscore1 +=answerScore;
+			$("#family1-score").text(totalscore1);
 			console.log(currPlayer + ". You got " + answerCount + " answers right")
 			//check if winner
 			if (answerCount === 6) {
@@ -162,10 +187,13 @@ $(".answerInputButton").click(function(){
 				//tally points in scorebox
 				$("#answerArea").hide()
 				$("#question").hide()
+				nextRound()
 			}
 		} 
 		else if (currPlayer === player2Name) {
-			answerCount++			
+			answerCount++
+			totalscore2 +=answerScore;
+			$("#family2-score").text(totalscore2);
 			console.log(currPlayer + ". You got " + answerCount + " answers right")
 			//check if winner
 			if (answerCount === 6) {
@@ -175,6 +203,7 @@ $(".answerInputButton").click(function(){
 				//tally points in scorebox
 				$("#answerArea").hide()
 				$("#question").hide()
+				nextRound()
 			}
 		}
 		//console.log the score that corresponds to the index of the answer
@@ -184,6 +213,7 @@ $(".answerInputButton").click(function(){
 		//flip corresponding answer tile with the answer and score
 			if (indexOfAnswer === 0) {
 				$("#frontAnswer1").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
+				answerScore++
 			} else if (indexOfAnswer === 1) {
 				$("#frontAnswer2").removeClass("answerTile").addClass("rightAnswer").html(corrAnswer);
 			} else if (indexOfAnswer === 2) {

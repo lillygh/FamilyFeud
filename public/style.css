@@ -114,6 +114,14 @@ body {
   background-color: black;
 }
 
+#family1-score {
+  color: white;
+  font-size: 48px;
+  position: absolute;
+  left: 48px;
+  top: -26px;
+}
+
 #family2-scorebox {
   position: absolute;
   left: 440px;
@@ -129,6 +137,14 @@ body {
   height: 60px;
   margin: 20px 10px 10px 25px;
   background-color: black;
+}
+
+#family2-score {
+  color: white;
+  font-size: 48px;
+  position: absolute;
+  left: 50px;
+  top: -26px;
 }
 
 /*-------------------------------*/
@@ -335,26 +351,6 @@ body {
   top: 55px;
   display: none;
 }
-
-/*#answer1Input {
-    position: absolute;
-    width: 200px;
-    height: 20px;
-    left: 410px;
-    top: 85px;
-    border: 2px solid #C13237;
-    display: none;
-}
-
-#answer2Input {
-    position: absolute;
-    width: 200px;
-    height: 20px;
-    left: 1100px;
-    top: 85px;
-    border: 2px solid #C13237;
-    display: none;
-}*/
 
 .answerInputButton {
     position: absolute;
