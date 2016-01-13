@@ -7,6 +7,7 @@ var strikeCount = 0
 var answerCount = 0
 var totalscore1=0;
 var totalscore2 =0;
+var roundScore = 0;
 var currentQuestion;
 var currQuestion;
 var bouncePlayer1;
@@ -15,6 +16,10 @@ var player1Image = "#player1-icon";
 var player2Image = "#player2-icon";
 var setInt;
 var corrAnswer;
+var intervalID;
+var isStealRound;
+var roundWinner;
+var roundCount = 0;
 
 // --------------------QUESTION/ANSWERS---------------------------------------
 //question and answer data
@@ -55,23 +60,51 @@ function playerNames(){
 	} 
 };
 
+// --------------------END OF GAME FUNCTION-----------------------------------
+
+function finishGame () {
+	var winningPlayer;
+	if (totalscore1 > totalscore2) {
+		winningPlayer = player1Name
+	}
+	if (totalscore1 < totalscore2) {
+		winningPlayer = player2Name
+	}
+	var message = winningPlayer ? "It's a tie" : winningPlayer + " has won!"
+
+	gameMsg(message)
+}
+
 // --------------------CHECK FOR WINNER-----------------------------------
 
-function checkWinner(){
-	//check if there's a winner
-	if (answerCount === 6) {
-		gameMsg(currPlayer + " has won this round! " + currPlayer + ", get ready to start the next round")
-		//start the next round
-		nextRound()
-		$("#answerArea").hide()
-		$("#question").hide()
-	}
+function distributeRoundPoints(winner){
+	//stop game timer
+	clearInterval(intervalID)
+	//stop animation
+	clearInterval(setInt)
+
+	$('#game-time').text('');
+	$("#answerArea").hide()
+	$("#question").hide()
+
+	totalscore1 += winner === 1 ? roundScore : 0
+	totalscore2 += winner === 2 ? roundScore : 0
+
+	$("#family1-score").text(totalscore1);
+	$("#family2-score").text(totalscore2);
+
+	var winnerName = winner === 1 ? player1Name : player2Name
+	currPlayer = winnerName	
+	gameMsg(winnerName + " has won this round! " + winnerName + ", get ready to start the next round")
+	//start the next round
+	nextRound()
 }
 
 // --------------------MESSAGE AREA FOR PLAYERS-----------------------------------
 
 //create a message area displaying who goes first
 function gameMsg(x){
+	hideQues()
 	$("#instruction3").show().text(x);
 	setTimeout(delayQues, 5000);
 }
@@ -91,10 +124,12 @@ function hideQues() {
 // used when you want to hide the gameMsg (message to the player) and show them the question yet (used with setTimeout)
 var delayQues = function(){
 	 	$("#instruction3").hide();
-	 		$("#question").show();
-	 		$("#answerArea").show();
-	 		$(".answerInput").show();
+	 	$("#question").show();
+	 	$("#answerArea").show();
+	 	$(".answerInput").show();
 		$("#button-image").show();
+		//show the game timer
+		gameTimer(isStealRound ? 5 : 60)
 }
 
 // --------------------WHO GOES FIRST-----------------------------------
@@ -103,6 +138,7 @@ var delayQues = function(){
 function setTurn(){
 	var r = Math.floor((Math.random() * 2) + 1);
 	hasWinner=0;
+	isStealRound = false;
 	if(r==1){
 		player1Name = $("#player1-input").val().toUpperCase()
 		currPlayer = player1Name
@@ -139,17 +175,26 @@ function clearBoard() {
   $("#frontAnswer4").text("4")
   $("#frontAnswer5").text("5")
   $("#frontAnswer6").text("6")
+  $(".answerInput").val('')
 }
 
 // --------------------NEXT ROUND---------------------------------------
 
 //function for starting the next round
 function nextRound(){
+	roundCount ++;
+		if (roundCount > 3) {
+			finishGame()
+			return;
+		}
+	isStealRound = false;
   hasWinner = 0;
   answerCount=0;
   strikeCount = 0;
   clearBoard();
-  showQuestion();
+	showQuestion();
+  roundScore = 0;
+  animatePlayer(currPlayer === player1Name ? player1Image : player2Image);
 }
 
 // ----------------------RANDOMIZE QUESTIONS-------------------------------------
@@ -179,16 +224,12 @@ $("#startgamebutton").click(function() {
 	setTurn();
 	//display the question
 	showQuestion();
-	//show the game timer
-	gameTimer(60)
-
 
 	//alert the user if they refresh the page during the game
 	window.onbeforeunload = function(e) {
   	return 'The game is currently in play.';
 	}
 });
-
 
 // --------------------ANSWER AREA---------------------------------------
 
@@ -226,39 +267,27 @@ $(".answerInputButton").click(function(){
     $(".answerInput").val('');
 
     //events to trigger if the current player is player 1
-		if (currPlayer === player1Name) {
+		//if (currPlayer === player1Name) {
 			clearInterval(setInt)
-			animatePlayer(player1Image)
+			animatePlayer(currPlayer === player1Name ? player1Image : player2Image)
 
 			//increase the correct answer count by 1
 			answerCount++;
 			//add the current answer score to the total score
-			totalscore1 +=answerScore;
+			roundScore +=answerScore;
 			//put the total score in the scorebox
-			$("#family1-score").text(totalscore1);
+			if (currPlayer === player1Name){
+				$("#family1-score").text(totalscore1 + roundScore);
+			}
+			else{
+				$("#family2-score").text(totalscore2 + roundScore);
+			}
 			console.log(currPlayer + ". You got " + answerCount + " answers right")
 			
-			//check if there's a winner
-			checkWinner()
-		} 
-
-    //events to trigger if the current player is player 1		
-		else if (currPlayer === player2Name) {
-			clearInterval(setInt)
-			animatePlayer(player2Image)
-
-			//increase the correct answer count by 1			
-			answerCount++
-
-			//add the current answer score to the total score
-			totalscore2 +=answerScore;
-			//put the total score in the scorebox
-			$("#family2-score").text(totalscore2);
-			console.log(currPlayer + ". You got " + answerCount + " answers right")
-			
-			//check if there's a winner
-			checkWinner()
-		}
+			if (answerCount === 6 || isStealRound) {
+				distributeRoundPoints(currPlayer === player1Name ? 1 : 2)
+				return;
+			}
 
 		//console.log the score that corresponds to the index of the answer
 		console.log("you received ", answerScore," points")
@@ -294,13 +323,23 @@ $(".answerInputButton").click(function(){
 				//show the red X images based on number of strikes
 				if (strikeCount === 1) {
 					$("#onestrike").show().delay(1000).fadeOut()
+					if (isStealRound) {
+						//total points goes to player 2
+						distributeRoundPoints(2)
+						return;
+					}
 				} else if (strikeCount === 2) {
 					$("#twostrike").show().delay(1000).fadeOut()
 				} else if (strikeCount === 3) {
 					$("#threestrike").show().delay(1000).fadeOut()
 
+					isStealRound = true;
+
 					clearInterval(setInt)
-					
+					clearInterval(intervalID)
+
+					$('#game-time').text('');
+
 					//switch turns after a player gets 3 strikes
 					currPlayer = player2Name
 					//reset strike count to 0 for player 2
@@ -312,15 +351,11 @@ $(".answerInputButton").click(function(){
 					//show message to next player that they can steal points for guessing any answer correctly in 5 seconds
 					gameMsg(currPlayer + ", you have 5 seconds to guess any remaining answer correctly and steal all the points. Get ready!")
 					
-					setTimeout(delayQues, 200);
-
-					//reset the game timer to 5 seconds
-
 					//start the next round
 				}
 		}
 
-		if (currPlayer === player2Name) {
+		else {
 			clearInterval(setInt)
 
 			animatePlayer(player2Image)
@@ -332,13 +367,23 @@ $(".answerInputButton").click(function(){
 				//show the red X images based on number of strikes
 				if (strikeCount === 1) {
 					$("#onestrike").show().delay(1000).fadeOut()
+						if (isStealRound) {
+						//total points goes to player 2
+						distributeRoundPoints(1)
+						return;
+						}
 				} else if (strikeCount === 2) {
 					$("#twostrike").show().delay(1000).fadeOut()
 				} else if (strikeCount === 3) {
 					$("#threestrike").show().delay(1000).fadeOut()
 
+					isStealRound = true;
+
 					clearInterval(setInt)
+					clearInterval(intervalID)
 					
+					$('#game-time').text('');
+
 					//switch turns after a player gets 3 strikes
 					currPlayer = player1Name
 					//reset strike count to 0 for player 2
@@ -350,10 +395,6 @@ $(".answerInputButton").click(function(){
 					//show message to next player that they can steal points for guessing any answer correctly in 5 seconds
 					gameMsg(currPlayer + ", you have 5 seconds to guess any remaining answer correctly and steal all the points. Get ready!")
 					
-					setTimeout(delayQues, 200);
-
-					//reset the game timer to 5 seconds
-
 					//start the next round
 				}
 		}
@@ -366,27 +407,22 @@ $(".answerInputButton").click(function(){
 
 	function gameTimer(x) {
 	var game = {score: 0, ellapsedTime: x, messages: ''};
+	$('#game-time').text(' ' + game.ellapsedTime)
+
+	//guard operator; same as if intervalID, clear interval; only run it if truthy
+	intervalID && clearInterval(intervalID)
 	intervalID = setInterval(function(){
 		game.ellapsedTime--;
-		$('#game-time').text(' ' + game.ellapsedTime).delay(5000);
+		$('#game-time').text(' ' + game.ellapsedTime)
 		if (game.ellapsedTime<=0) {
 	        clearInterval(intervalID);
+					if (isStealRound) {
+						distributeRoundPoints(currPlayer === player1Name ? 2 : 1)
+						return;
+					}
 	    };
 	},1000);
 }
-
-/*
-function resetTimer() {
-	var game = {score: 0, ellapsedTime: 0, messages: ''};
-	intervalID = setInterval(function(){
-		game.ellapsedTime--;
-		$('#game-time').text(' ' + game.ellapsedTime);
-		if (game.ellapsedTime<=0) {
-	        clearInterval(intervalID);
-	    };
-	},1000);	
-}
-*/
 
 // -----------------------------------------------------------
 // Next steps:
