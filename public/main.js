@@ -37,7 +37,11 @@ var qData = [{question: 'Name a word that most people yell at their dogs',
 			{question: 'Name a holiday when people have parties.',
 			  answers: ['CHRISTMAS', 'THANKSGIVING', 'HALLOWEEN', '4TH OF JULY', 'LABOR DAY', 'NEW YEARS EVE'],
 			  scores: [35,21,11,3,2,1]
-			}
+			},
+			{question: 'Name a bad sport for someone who is afraid of the water.',
+			  answers: ['SWIMMING', 'WATER POLO', 'WATER SKIING', 'DIVING', 'SCUBA DIVING', 'SURFING'],
+			  scores: [33,21,17,11,6,5]
+			}			
 ];
 
 // -----------------PLAYER NAMES------------------------------------------
@@ -60,21 +64,6 @@ function playerNames(){
 	} 
 };
 
-// --------------------END OF GAME FUNCTION-----------------------------------
-
-function finishGame () {
-	var winningPlayer;
-	if (totalscore1 > totalscore2) {
-		winningPlayer = player1Name
-	}
-	if (totalscore1 < totalscore2) {
-		winningPlayer = player2Name
-	}
-	var message = winningPlayer ? "It's a tie" : winningPlayer + " has won!"
-
-	gameMsg(message)
-}
-
 // --------------------CHECK FOR WINNER-----------------------------------
 
 function distributeRoundPoints(winner){
@@ -83,20 +72,26 @@ function distributeRoundPoints(winner){
 	//stop animation
 	clearInterval(setInt)
 
+	//set game timer to empty
 	$('#game-time').text('');
+	//hide question and answer area
 	$("#answerArea").hide()
 	$("#question").hide()
 
+	//determine who gets the score for that round, if winner === player 1, add totalscore to roundscore
 	totalscore1 += winner === 1 ? roundScore : 0
 	totalscore2 += winner === 2 ? roundScore : 0
 
+	//put the scores in their appropriate score boxes
 	$("#family1-score").text(totalscore1);
 	$("#family2-score").text(totalscore2);
 
+	//put the winning player in a variable and assign it to current player
 	var winnerName = winner === 1 ? player1Name : player2Name
 	currPlayer = winnerName	
 	gameMsg(winnerName + " has won this round! " + winnerName + ", get ready to start the next round")
 	//start the next round
+	
 	nextRound()
 }
 
@@ -157,7 +152,7 @@ function setTurn(){
 
 // --------------------ANIMATE CURRENT PLAYER---------------------------------------
 
-//stop the animation when the player turn changes and start the opposite player's animation
+//animation for the current player
 
 function animatePlayer(player) {
 	setInt = setInterval(function () {
@@ -175,7 +170,34 @@ function clearBoard() {
   $("#frontAnswer4").text("4")
   $("#frontAnswer5").text("5")
   $("#frontAnswer6").text("6")
+  //set the answer input value to empty
   $(".answerInput").val('')
+}
+
+// --------------------END OF GAME FUNCTION-----------------------------------
+
+function finishGame () {
+
+	//stop game timer
+	clearInterval(intervalID)
+	//stop animation
+	clearInterval(setInt)
+
+	// var winningPlayer;
+	if (totalscore1 > totalscore2) {
+		// winningPlayer = player1Name
+		gameMsg(player1Name + " has won!")
+	}
+	if (totalscore1 < totalscore2) {
+		// winningPlayer = player2Name
+		gameMsg(player2Name + " has won!")
+	} 
+	else	if (totalscore1 === totalscore2) {
+		gameMsg("It's a tie!")
+	}
+
+	// var message = winningPlayer ? "It's a tie" : winningPlayer + " has won!"
+	// gameMsg(message)
 }
 
 // --------------------NEXT ROUND---------------------------------------
@@ -183,10 +205,11 @@ function clearBoard() {
 //function for starting the next round
 function nextRound(){
 	roundCount ++;
-		if (roundCount > 3) {
-			finishGame()
-			return;
-		}
+	if (roundCount > 2) {
+		finishGame()
+		return;
+	}
+
 	isStealRound = false;
   hasWinner = 0;
   answerCount=0;
@@ -351,7 +374,6 @@ $(".answerInputButton").click(function(){
 					//show message to next player that they can steal points for guessing any answer correctly in 5 seconds
 					gameMsg(currPlayer + ", you have 5 seconds to guess any remaining answer correctly and steal all the points. Get ready!")
 					
-					//start the next round
 				}
 		}
 
@@ -395,7 +417,6 @@ $(".answerInputButton").click(function(){
 					//show message to next player that they can steal points for guessing any answer correctly in 5 seconds
 					gameMsg(currPlayer + ", you have 5 seconds to guess any remaining answer correctly and steal all the points. Get ready!")
 					
-					//start the next round
 				}
 		}
 		console.log("number of strikes is ", strikeCount)
@@ -428,10 +449,8 @@ $(".answerInputButton").click(function(){
 // Next steps:
 
 /* 	
-	- reset game timer
 	- reveal all answers at end of round
-	- limit steal points round to just 1 chance
-	- add reset board function
-	- timer on each turn
+	- finish game functionality 
+	- add the total points for that round to the winning player's total (not just the total of the score they got right)
 */
 
