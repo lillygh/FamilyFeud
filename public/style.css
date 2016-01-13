@@ -83,7 +83,7 @@ body {
   color: white;
   text-align: center;
   vertical-align: middle; 
-  font-size: 19px;
+  font-size: 18px;
   text-transform: uppercase;
   position: relative;
   left: 3px;
@@ -259,13 +259,8 @@ body {
 
 .answer-number {
     color: white;
-    background-color: #11155C;
-    height: 33px;
-    width: 33px;
-    border-radius: 50%;
-    font-weight: bolder;
-    font-size: x-large;
-    margin: 5px;
+    font-size: 17px;
+    margin: 10px;
 }
 
 .turnName {
